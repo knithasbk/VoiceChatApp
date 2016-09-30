@@ -1,0 +1,45 @@
+
+------------------------------------------------------------------------
+MainActivity.class 
+
+1. on onCreate() state: 
++ get location: String Utility.getPreferredLocation(this):  mLocation
++ set content View: setContentView(R.layout.activity_main): 
+	+ check size screen: Using id:R.id.weather_detail_container 
+		- If large-screen, R.id.weather_detail_container !=null -> mTwoPane = true
+		- If small-screen, R.id.weather_detail_container =null -> mTwoPane = false
+
++ get/and update weather status for forecastFragment : R.id.fragment_forecast
++ initial syncstatus: SunshineSyncAdapter.initializeSyncAdapter(this);
+
+2. Inflate the menu: add items menu to action bar
+	@Override: boolean onCreateOptionsMenu()
+3. Handle the action bar item click by using, 
+	@Override: boolean onOptionsItemSelected(): 
+	Using Intent to handle items click event. 
+
+4. on onResume() state:  
+ 4.1: Update location: String Utility.getPreferredLocation(this):  location
+ 4.2: Compare new location with exsiting location (mLocation) -> update the  forecastFragment to show the weather status. 
+ 
+5. Handle the onItemSelected event for weatherItem -> Using the Intent to go to the WeattherDetail 
+---------------------------------------------------------------------
+ Utility Class: 
+ Create some method to utilitt: 
+ 
+ 1. Get location at String getPreferredLocation(): R.string.pref_location_key
+ 2. boolean isMetric()
+ 3.  String formatTemperature(Context context, double temperature) 
+ conver Celsius to Fahrenheit format. 
+ 4. String formatDate(long dateInMilliseconds) 
+ 5. String getFormattedMonthDay()
+ 6. String getFormattedWind()
+ 7. int getIconResourceForWeatherCondition()
+ 8. int getArtResourceForWeatherCondition(int weatherId)
+ 
+---------------------------------------------------------------------
+ ForecastFragment Class
+ 
+ 1.   @Override : void onCreateOptionsMenu() get menu 
+ 2. 
+	
