@@ -1,0 +1,1909 @@
+
+										
+AxS's Customers : Bell, AT&T, BGC, Verision  
+Each customer have own app that need to install.
+Type of NEs: + G6 
+			 + GPON : 7342
+			 + ISAM : 7360
+			 
+
+ROUTE
+Show route table: 
+netstat -nr 
+Add route: 
+route add -net [network] netmask [subnetmask] gw [getway]
+route delete -net 135.249.41.0 netmask 255.255.255.0 gw 192.168.95.100
+route add -net 135.249.0.0 netmask 255.255.0.0 gw 192.168.92.100
+ - 192.168.92.100/24
+ - 192.168.92.77/24
+ - 192.168.95.100/24
+ - 192.168.95.177/24
+ - 192.168.72.200/24
+ - 192.168.72.177/24
+ 
+ ---------------------------------------------------------
+ enable SSL
++ creat :  keytool -genkeypair -alias mykeypairsha2 -keyalg RSA -keysize 2048 -validity 7300 -sigalg SHA256withRSA -keystore mykeystore
+ 
+ 
+ 
+----------------------------------------------------------
+CONFIGURE TO START: 
+****APC********
+
+Step 1: Set ENABLE Attributes System Setting -> APC -> Miscellaneous settings related to 5526 AMS-M transition requiring Nokia approval then
+restart server. ---->>>> APPLY CHANGE********** 
+Attribute Custom Ont Override mode: + Enable : when you unconfigure the ONT and ONT card aren't deleted
+									+ Disable : 
+7342 GPON OR selector : DISABLE : not export cardType and portType
+						ENABLE
+							
+									
+
+Step 2: Import template: when occour error 
+    Go to AMS-client and Set Custom Field: Window -> Show view - > Other -> Custom Field :
+																	 - internal Attribute Name: phoneNumber
+																	 - GUI Name : Phone Number 
+																	 - Family :GPON (if GPON) 
+																	 - Object: POTS Port
+	
+	
+****AMS****												   
++ Add license 
++ Creat SNMP profile
++ Set NE Detect 
+
+***APPLY SERVICE**** 
+Data: (10M10M, 100M100M,... )
+**Data (10M10M): 
+- Creat VLAN : Mode: C-VLAN Learning
+- Add profile (View on APC) 
+ Note: Creat profile  and to PQ_HSI profile, perform configure : Queue 1 - 2 
+ 
+
+
+**RF_Video (RF_Video)
+Voice SIP (2SIP_FTTP)
+SES (SES_10M_UNI) 
+CES (DS1_SERVICE)
+
+**Voice H248 (2POTS_GR303)
+- Creat Link : + NTA
+			   + G6 - GPON link
+			
+------------------------------------------------
+OPERATIONS: 
++ SPFE: 
+	- Delete: Only delete on NE -> Missing in NE
+expected: value of template when you applyservice 
+actual : value on NE
++ When you modify a agrument, the value on expected and actual is changed, but one on the APC database isn't changed.
++ Audit service : compare the value on actual NE to APC database 
++ NBI: 
+	- audit : audit service, could choose agrument, what you want to audit  
+	- audit node: audit node,  have attribute inExess, return requestId 
+	- getNodeAuditResult, use requestId of auditNode. 
+			Note: PLANNED : the operation isn't performed, isn't executed yet, is executing.
+	- check : response the status of attributes in statusExpressionList. statusExpressionList is optional.
+	- clean : remove all services 
+	- dbClean: delete APC database = delete service(SPFE) --> misalign in APC, clean all service 
+	- dbUnconfigure: delete APC databse, only delete service is specified.
+	- excute : excute more operation, commandId is unique, action is optional, find in Northbound book. 
+	- excuteUrl: 
+	- reapplyAllServices: strategy : optional : REAPPLY_ALL enable full discovery of complete port. 
+	- modify : modifile APC database and NE
+
+	
+--------------------------
+WIRESHARK:
+
+Packet Colors: 
+	+ green : traffic TCP
+	+ Blue: traffic DNS
+	+ light blue : traffic UDP
+	+ Black: TCP massage have problem.
+	
+	
+			
+			
+			
+			
+
+ams                      9.5.95.00    -       311952
+apc-avginclplugs-x.x     1.0          9.5.95  311952
+apc-eteg6g7342-x.x       1.0          9.5.95  311952
+apc-eteg6g7360-x.x       1.0          9.5.95  311952
+apc-eteg6g7367-x.x       1.0          9.5.95  311952
+app-ansitl1              1.0          9.5.95  311952
+app-apc                  1.0          9.5.95  311952
+app-dcscript             1.0          9.5.95  311952
+app-idm                  1.0          9.5.95  311952
+app-lrm                  1.0          9.5.95  311952
+app-np                   1.0          9.5.95  311952
+app-oad                  1.0          9.5.95  311952
+app-sdc                  1.0          9.5.95  311952
+app-spfe                 1.0          9.5.95  311952
+combo-g6-12.3            1.0          9.5.95  311952
+combo-gpon-4.10          1.0          9.5.95  311952
+combo-isam-5.3           1.0          9.5.95  311952
+combo-isam-fgn4.4        1.0          9.5.95  311952
+---------------------------------
+
+APC
+Notes: 
+- To change a unmodifiable attributes value -> remove service (just remove on APC database) -> addservice (importTemplate) to make
+misalign 
+- Template was provisioned. - change version 
+							- unconfigure
+
+
+----------------
+View date/time 
+command: date
+
+
+---------------
+SERVER CLUSTER CAN'T START 
+	- App and Plug are same on 2 server
+	- Time must be synchronch.... command : date
+	- Check configuration:  + Muilcast AMS server
+							+ Multicast Database
+							
+----------------
+Step to verify ticket: 
+1. See customer request to add suitable template
+2. 
+							
+
+
+-----------------------------------------
+
+not supervision 
+
++ NE unsuper
++ NE (Partially supervised) 
+	- sai SNMP IACM (unreachable)
+	- sai SNMP IHUB 
++ NE unreachable  : not be routed
+
++ NE Supervising : change the SNMP name publicxxxx
+
+
+
+--------------------------------------------
+Backup and restore: 
+Use the ams_backup.sh -f [direction] script 
+Setting before: - login by amssys user
+				- stop server
+GPON49: 135.249.41.115
+ISAM53: 135.249.41.14
+bash-3.2# /ams0/opt/ams/software/ams-9.4.01-268995/bin/
+           /var/opt/ams/users/amssys/
+		   /ams/var/opt/ams/users/amssys			
+   		   
+				
+				
+				
+
+
+
+
+ams                     9.4.04       -       302574                                            
+ansitl1-g6-12.3         1.1          9.4     300320                                            
+ansitl1-gpon-4.9        1.2          9.4     300320                                            
+ansitl1-isam-5.2        1.2          9.4     300320                                            
+ansitl1-isam-fgn4.4     1.0          9.4     300786                                            
+apc-730x-x.x            1.1          9.4     298635                                            
+apc-avginclplugs-x.x    1.3          9.4     298635                                            
+apc-avgplugs-1.0        1.0          9.4     298635                                            
+apc-eteg6g7342-x.x      1.2          9.4     298635                                            
+apc-eteg6g7360-x.x      1.2          9.4     298635                                            
+apc-eteg6g7367-x.x      1.1          9.4     298635                                            
+app-ansitl1             1.4          9.4     300320                                            
+app-apc                 1.4          9.4     300735                                            
+app-dcscript            1.4          9.4     300320                                            
+app-idm                 1.4          9.4     298635                                            
+app-np                  1.4          9.4     298635                                            
+app-oad                 1.3          9.4     288119                                            
+app-sdc                 1.4          9.4     300320                                            
+app-spfe                1.4          9.4     300735                                            
+combo-g6-12.3           1.3          9.4     300735                                            
+combo-gpon-4.9          2.2          9.4     300902                                            
+combo-isam-5.2          3.1          9.4     301013                                            
+combo-isam-5.3          2.1          9.4     303537                                            
+combo-isam-fgn4.4       1.0          9.4     292237                                            
+np-gpon-4.9             2.1          9.4     288119                                            
+np-isam-5.2             1.0          9.4     288119                                            
+np-isam-5.3             1.0          9.4     288119 
+
+
+-----------------------------------
+
+error : /bin/bash: bad interpreter: Text file busy
+solutions: 
+ lsof | grep myscript.sh
+  then
+ kill process
+ 
+ for python files
+ Using /usr/bin/python pythonfile.py	
+ 
+ 
+ 
+ ---------------------------------
+ Ports are used in APC : 
+ - Show list port : ./ams_updatefirewall --show
+ - Check services are really be used right on each port: 
+ 
+ 
+
+http://tiger.in.alcatel-lucent.com:8090/display/AMS903/AMS+Firewall+Ports
+Page 45 : D:\Documents\APC\5529 APC R9_5 Installation, Administration, and User Guide.pdf
+ 
+
+ ne       | SNMP Get/Set                                    | udp      | 161 --> setting in SNMP profile
+ ne       | TFTP Service                                    | udp      | 69
+ all      | Jboss HA RMI                                    | tcp      | 4447 --> 
+ client   | HTTP                                            | tcp      | 8080 --> use browser to enter APC GUI or SOAP UI to send operation message by http on port 8080 --> OK
+ client   | HTTPS                                           | tcp      | 8443 --> use browser to enter APC GUI or SOAP UI to send operation message by https on port 8443 --> OK 
+
+----------------------------
+VNC viewer
+ps -ef | grep vnc 
+-----------------------------
+APC Gui: Template Attribute: Exclude Audit	Exclude Reapply	Exclude Discover : must be loggin by superuser  
+ Debug apc.log
+[5/9/2016 7:16 PM] Phan Van Tho Anh: 
+
+
+
+su - amssys
+cd $JBOSS_HOME/bin
+./jboss-cli.sh
+connect 192.168.92.235:9999
+/subsystem=logging/logger=com.alcatel.apc:write-attribute(name="level", value="DEBUG")
+/subsystem=logging/logger=com.alcatel.ni:write-attribute(name="level", value="DEBUG") 
+[5/9/2016 7:16 PM] Phan Van Tho Anh: 
+/var/opt/ams/local/ams-9.5.95.00-317224/traces/debug 
+
+/opt/ams/software/ams-9.5.95.00-320045/bin/ams_server status 
+
+
+Template Tag
+Parameter
+Argument
+-------------------
+Attributes:  set -No-Value-
+• migrate, with NO_REBUILD
+• modify, without the forceModify parameter
+• move (NBI only)
+• reapply services or reapply all services with NO_REBUILD
+---------------------
+- Export Service: *****
++Error Message :  5529 APC R9_5 Installation, Administration, and User Guide.pdf 
+page: 189
+- Bulk Service provisioning***
+Key for import file : 5529 APC R9_5 Installation, Administration, and User Guide.pdf 
+page: 195
+- System Administration overview: 5529 APC R9_5 Installation, Administration, and User Guide.pdf 
+page: 211
+--------------
+Configure use SoapUI: APC R9_5 Northbound Interface - nbi
+Page : 
+.
+
++ Only Verizion and AT&T : enable setting 
++ 
+
+
+------------------------------------- 
+Switch server : 
+
+- Loggin AMS-client 
+- Administration -> EMS -> site -> App and Data
+- Right click on Server that you want to becam a master -> r
+-----------------------------------
+Customer / Database / Account / Password
+admin1: 283FDE2E1A5CB7DA:1000:02AB800FECAD6C3A2F249DF020456EF36CB868E4
+admin1: 4807D0B1ED4DB6C6:1000:6B0DCC565744C54E81B4B9A5F1E1190B04C618BA
+4807D0B1ED4DB6C6:1000:6B0DCC565744C54E81B4B9A5F1E1190B04C618BA
+update User set Password='4AzyWtQmg7PfZ4xh9Cxr2g==' where name='admin'; 
+
+
+
+---------------------------------
+iNES
+http://tiger.in.alcatel-lucent.com:8090/display/Conv/iNES+Setup
+http://tiger.in.alcatel-lucent.com:8090/display/Conv/Start+iNES+use+for+LRM
+http://tiger.in.alcatel-lucent.com/svn/axs/tools/branches/ines/iNES/WALKFILES
+http://tiger.in.alcatel-lucent.com:8090/display/Conv/How+to+create+walk-file+from+real+NE
+
+192.168.72.208 SSH with root/root123456, Samba with root/123456
+input walkfile in patch /export/home/name
+Requirement: Interface+IP+Walkfile
+
+-----------------------------------------------------
+1.find real Ne: 
+2.72.208
+3.ping thu Ne ao -> if not -> unreachable -> not created yet
+4.creat 
+ifconfig igb1:1012 plumb up 44.44.44.112/24 ( create interface and ip for NE) (solaris)
+ifconfig igb1:1012 44.44.44.112/24 up  (unbutu,redhat)
+5.try ping-> ok
+6. creat walk file from any NE
+dump file from real NE: 135.249.43.102 root/chenn@!96 patch: /INES/build_86
+http://tiger.in.alcatel-lucent.com:8090/display/Conv/How+to+create+walk-file+from+real+NE
+
+when dump file on server 192.168.72.208 choose Ctrl + Z, nhan "bg" 
+7. after have walkfile of real Ne -> cd to folder which has build iNes to run and export library:
+
+cd /export/home/iNES_Release/5.601/build_86 ( move to folder where including packet install)
+export LD_LIBRARY_PATH=/export/home/iNES_Release/5.601/build_86/mysql32bit/lib:/export/home/iNES_Release/5.601/build_86/ ( export library )
+8. iNes will export walk file to sim Ne :
+
+export MIBFILE=/export/home/nvinhhung/FGN44/dump/TOTAL_MIB.txt
+./iNESd -i 1 -s 55.55.55.213 -t GPON -f /export/home/nvinhhung/dump/iacm.raw &
+
+export MIBFILE=/export/home/nvinhhung/FGN44/dump/lanx_smiv1_TOTAL_MIB.txt 
+./iNESd -i 1 -s 44.44.44.112 -t LANX -f /export/home/nvinhhung/FGN44/dump/shub.raw &
+
+9. test for agent: ps -ef|grep 44.44.44.112
+	root 11092  3693   0 10:01:15 pts/28      0:02 ./iNESd -i 1 -s 44.44.44.112 -t FTTN -f /export/home/nvinhhung/FGN44/dump/iacm.
+    root 11919  3693   1 10:01:36 pts/28      0:02 ./iNESd -i 1 -s 44.44.44.112 -t LANX -f /export/home/nvinhhung/FGN44/dump/shub.
+    root 12417  3693   0 10:01:59 pts/28      0:00 grep 44.44.44.112
+10. kill
+
+kill -9 11092
+kill -9 11919
+11. add firewall for agent
+change: vi /etc/sysconfig/iptables
+-A INPUT -i eth0 -p udp -m state --state NEW -m udp --sport 50200 -j ACCEPT
+-A INPUT -i eth0 -p udp -m state --state NEW -m udp --sport 50270 -j ACCEPT
+after that : 
+12.restart firewall: service iptables restart
+
+---------------------------------------------
+ls &
+For redhat unbutu:
+
+export/home/ltinhuy/5.62_4/build_lnx/
+
+ifconfig igb1:1009 44.44.44.109/24 up 
+cd /export/home/ttanh/5.67/build_86/
+export LD_LIBRARY_PATH=/export/home/ttanh/5.67/build_86/mysql32bit/lib:/export/home/ttanh/5.67/build_86/
+export MIBFILE=/export/home/ttanh/ISAM_IHUB53_WF/TOTAL_MIB.txt
+./iNESd -i 1 -s 55.55.55.213 -t  -f /export/home/ttanh/ISAM_IHUB53_WF/iacm.walk &
+export MIBFILE=/export/home/ttanh/ISAM_IHUB53_WF/ihub_TOTAL_MIB.txt 
+./iNESd -i 1 -s 55.55.55.213 -t LANX -f /export/home/ttanh/ISAM_IHUB53_WF/ihub.walk & 
+------------------------------------------------------------------------------------
+dump file from real NE: 135.249.43.102 root/chenn@!96 patch: /INES/build_86
+http://tiger.in.alcatel-lucent.com:8090/display/Conv/How+to+create+walk-file+from+real+NE
+---------------------------------------------------------------------------------------------
+Build -> http://tiger.in.alcatel-lucent.com/svn/axs/tools/branches/ines/iNES/RELEASES/iNES_SNAPSHOT/iNES.5.62.redhat_lnx.snapshot2.tar.gz 
+get from local: http://192.168.95.80/svn/axs/tools/branches/ines/iNES/RELEASES/iNES_SNAPSHOT/iNES.5.62.redhat_lnx.snapshot2.tar.gz
+-go to \\192.168.72.208\root\export\home  -> creat ltinhuy ( to include nesssary file )
+-put file tar.gz to  ltinhuy folder 
+-make 5.62 or 5.62_2 ( for snapshot 2) -> put tar.gz in it
+-extract by linux command: gzip -dc tenfile.tar.gz | tar xf - (cd to folder 5.62_2 first)
+
+(  gzip -dc iNES.5.62.x86.snapshot5.tar.gz | tar xf -)
+- it will be extracted -> ls
+-cd build_lnx/
+-chmod 777 iNESd ( for only iNESd)
+-if sim Ne use build 5.61 or snapshot 1 -> kill
+-then :
+cd /export/home/ltinhuy/5.62_5/build_86
+export LD_LIBRARY_PATH=/export/home/ltinhuy/5.62_5/build_86/mysql32bit/lib:/export/home/ltinhuy/5.62_5/build_86/ (change the path to my local, avoid congestion with common Folder(ines release))
+export MIBFILE=/export/home/nvinhhung/FGN44/dump/TOTAL_MIB.txt
+./iNESd -i 1 -s 55.55.55.195 -t FTTN -f /export/home/nvinhhung/FGN44/dump/iacm.raw &
+export MIBFILE=/export/home/nvinhhung/FGN44/dump/lanx_smiv1_TOTAL_MIB.txt 
+./iNESd -i 1 -s 55.55.55.195 -t LANX -f /export/home/nvinhhung/FGN44/dump/shub.raw & 
+
+
+
+
+
+FX: iNES / Simulation /7360/7302
+----- 
+export MIBFILE=/export/home/ltinhuy/7302ISAM/TOTAL_MIB.txt
+./iNESd -i 1 -s 55.55.55.192 -t FTTN -f /export/home/ltinhuy/7302ISAM/iacm.raw &
+
+export MIBFILE=/export/home/ltinhuy/7302ISAM/ihub_TOTAL_MIB.txt 
+./iNESd -i 1 -s 55.55.55.192 -t IHUB -f /export/home/ltinhuy/7302ISAM/ihub.raw & 
+
+
+7302: iNES / Simulation /7360/7302
+---------
+export MIBFILE=/export/home/ltinhuy/FX/TOTAL_MIB.txt
+./iNESd -i 1 -s 55.55.55.194 -t FTTN -f /export/home/ltinhuy/FX/iacm.walk &
+
+export MIBFILE=/export/home/ltinhuy/FX/ihub_TOTAL_MIB.txt 
+./iNESd -i 1 -s 55.55.55.194 -t IHUB -f /export/home/ltinhuy/FX/ihub.walk & 
+
+----------------
+
+
+OFFICIAL : 
+
+cd /export/home/ttanh/5.67/build_86/
+export LD_LIBRARY_PATH=/export/home/ttanh/5.67/build_86/mysql32bit/lib:/export/home/ttanh/5.67/build_86/
+
+export MIBFILE=/export/home/ttanh/ISAM53_FX_walkfiles/TOTAL_MIB.txt
+./iNESd -i 1 -s 55.55.55.217 -t FTTN -f /export/home/ttanh/ISAM53_FX_walkfiles/iacm.walk &
+
+export MIBFILE=/export/home/ttanh/ISAM53_FX_walkfiles/ihub_TOTAL_MIB.txt 
+./iNESd -i 1 -s 55.55.55.217 -t IHUB -f /export/home/ttanh/ISAM53_FX_walkfiles/ihub.walk & 
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------
+
+[root@server95214 ~]# netstat -nr
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+192.168.95.0    0.0.0.0         255.255.255.0   U         0 0          0 eth0
+44.44.44.0      192.168.95.135  255.255.255.0   UG        0 0          0 eth0
+135.249.0.0     192.168.95.100  255.255.0.0     UG        0 0          0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0
+0.0.0.0         192.168.95.1    0.0.0.0         UG        0 0          0 eth0
+----------------------------------
+gw for sim NE:
+92: 192.168.92.183
+95: 192.168.95.135
+72: 192.168.72.208
+
+change: vi /etc/sysconfig/iptables
+-A INPUT -i eth0 -p udp -m state --state NEW -m udp --sport 50200 -j ACCEPT
+-A INPUT -i eth0 -p udp -m state --state NEW -m udp --sport 50270 -j ACCEPT
+
+restart firewall: service iptables restart
+
+cd /var/opt/ams/users/amssys/bin 
+./ams_updatefirewall --debug 
+
+
+
+
+
+
+
+ -------------------------------------------------------------------------------------------
+link with walkfile :
+cd /export/home/iNES_Release/5.601/build_86 ( move to folder where including packet install)
+export LD_LIBRARY_PATH=/export/home/iNES_Release/5.601/build_86/mysql32bit/lib:/export/home/iNES_Release/5.601/build_86/ ( export library )
+
+export MIBFILE=/export/home/nvinhhung/FGN44/dump/TOTAL_MIB.txt
+./iNESd -i 1 -s 44.44.44.112 -t FTTN -f /export/home/nvinhhung/FGN44/dump/iacm.raw &
+
+export MIBFILE=/export/home/nvinhhung/FGN44/dump/lanx_smiv1_TOTAL_MIB.txt 
+./iNESd -i 1 -s 44.44.44.112 -t LANX -f /export/home/nvinhhung/FGN44/dump/shub.raw &
+
+ps -ef|grep 44.44.44.112
+
+
+bash-3.00# ps -ef|grep 44.44.44.112
+    root 11092  3693   0 10:01:15 pts/28      0:02 ./iNESd -i 1 -s 44.44.44.112 -t FTTN -f /export/home/nvinhhung/FGN44/dump/iacm.
+    root 11919  3693   1 10:01:36 pts/28      0:02 ./iNESd -i 1 -s 44.44.44.112 -t LANX -f /export/home/nvinhhung/FGN44/dump/shub.
+    root 12417  3693   0 10:01:59 pts/28      0:00 grep 44.44.44.112
+
+kill -9 11092
+kill -9 11919
+
+------------------------------
+
+
+
+
+COVERITY
+
+Notes:
+1. server cannot be started with lot of apps and plugs
+2. open AMS GUI takes time
+
+On Single:
+
+1. run the three commands on the server:
+yum install python-yaml*
+yum install python-argparse*
+yum install dos2unix
+
+2. using Coverity build at http://172.21.132.88:8080/browse/COVERITY-ASB
+
+3. Install AMS with required plugs and ams_activate
+
+4. Run commands to open default ports:
+iptables --flush
+service iptables save
+service iptables status
+service iptables stop
+service iptables start
+service iptables status
+
+/sbin/iptables -A INPUT -p all -s 0.0.0.0/0 -d 0.0.0.0/0 -m state --state RELATED,ESTABLISHED -j ACCEPT
+/sbin/iptables -A INPUT -p icmp -s 0.0.0.0/0 -d 0.0.0.0/0 -j ACCEPT
+/sbin/iptables -A INPUT -p all -i lo -s 0.0.0.0/0 -d 0.0.0.0/0 -j ACCEPT
+/sbin/iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
+/sbin/iptables -A INPUT -p all -s 0.0.0.0/0 -d 0.0.0.0/0 -j REJECT --reject-with icmp-host-prohibited
+/sbin/iptables -A FORWARD -p all -s 0.0.0.0/0 -d 0.0.0.0/0 -j REJECT --reject-with icmp-host-prohibited
+
+service iptables save
+service iptables stop
+service iptables start
+service iptables status
+
+/opt/ams/software/ams-9.6.00-333881/bin/ams_updatefirewall 
+
+-----
+
+portdescriptor.xml file. 
+
+# APC PORT Interface | Description                        | Protocol | Port number
+----------+------------------------------------+----------+------------
+eth0      | Jboss HA RMI                       | tcp      | 4447
+eth0      | HTTP                               | tcp      | 8080
+eth0      | HTTPS                              | tcp      | 8443
+eth0      | TFTP Service                       | udp      | 69
+eth0      | Internal TL1GW OSS Connection Port | tcp      | 4713
+eth0      | Internal TL1GW NE Connection Port  | udp      | 13001
+
+
+
+
+
+5. Run ams_updatefirewall
+
+6. Open the ports:
+/sbin/iptables -I INPUT 3 -m state --state NEW -m tcp -p tcp --dport 9095  -j ACCEPT
+/sbin/iptables -I INPUT 4 -m state --state NEW -m tcp -p tcp --dport 9195  -j ACCEPT
+/sbin/iptables -I INPUT 4 -m state --state NEW -m tcp -p tcp --dport 9096 -j ACCEPT
+				 
+
+
+delete port:  /sbin/iptables -D INPUT -p tcp --dport 9096  -j ACCEPT
+
+7. Create /Coverity folder
+
+8. Download and Copy coverity-testadvisor-qa-recorder-latest.tar (Coverity linux software package)to Coverity folder from 
+http://54.76.152.234/docs/display/testadvisor/Downloads
+
+9. Untar the file -> Command: tar -xvf coverity-testadvisor-qa-recorder-latest.tar
+
+10. Create the folder /Scripts under /Coverity (mkdir Scripts)
+
+11. run command: (Coverity Installation directory and sub-directories must have recursive amssys permissions)
+chown -R amssys:amssys /Coverity/*
+
+12. Copy configuration.yaml and CoverityConfigurator.py to Scripts folder (remane the file configuration_server.yaml to configuration.yaml)
+
+13. edit the configuration.yaml file:
+ams_include_path: /opt/ams/software/ams-9.5.95.00-313846/lib/platform/bin/ams_include.sh
+name: app-server
+recorder.url:  http://192.168.92.234:9096
+agent.port: 9095-9195
+dir: /opt/ams/software/ams-9.5.95.00-313846
+dir: /var/opt/ams/local/ams-9.5.95.00-313846/server/wildfly-8.2.1.Final/server/amssys/deployments/
+
+
+
+
+
+14.before executing the script > change mode for the folders and the files (using root user):
+cd /Coverity
+chmod 777 *
+cd /Coverity/Scripts
+chmod 777 *
+chmod 777 /Coverity
+chmod 777 /Coverity/Scripts
+
+
+15. Execute CoverityConfigurator.py script as amssys user (login the server with amssys user)
+./CoverityConfigurator.py
+
+Note that: ~10 minutes to server starting
+
+
+16. Start AMS Server
+
+============================================
+
+On cluster:
+
+
+1. Repeat the same steps as we did for simplex installation
+1.1. 1 App + Data server should be configured with "start_recorder: true" and "recorder.url:   http://AMS_Server_IP:9096"
+whereas other servers should be configured with "start_recorder: false" and recorder.url should be configured with ip address of AMS server for which the start recorder file is set as true
+1.2. b.In a cluster setup ensure that the server agent name and server agent port parameter are  unique for all the servers. (Example- Server1- name: app_server_1 agent.port: 9095, Server2- name: app_server_2 agent.port: 9195)
+2. rename the generated app-server config file to default name "app-server.conf"
+3. 3.Start AMS Server one by one
+-------------------
+
+SNMP Profile: 
+IACM : pulic
+IHUB : NETMAN
+
+
+Date: 15/09/2016
+From: Anh Tran 	Tuan 
+To: Ms. Truc Lieu
+C.c: Mr.The Dong
+
+RESIGNATION LETTER
+Filel No.: <File No.>
+Dear Ms.Truc,
+
+Please accept this letter as my official resignation from employment with TMA effective from 17/09/2016. As fulfillment of 30 days advanced notification by Vietnam Labor code, my last working day will be 17/10/2016.
+The reason of my resignation is because of I have accepted a position with another company that will further my growth and development in my career. I have enjoyed working at TMA Solutions and will miss my colleagues. However, this new position will challenge my growth and further my career.
+It is my pleasure to be part of AxS QA team. I'd like to express my appreciation to all colleagues during my employment with TMA.
+I would like to take this opportunity to wish my colleagues and TMA solutions also great success.
+Sincerely,
+
+
+
+NAME: Anh Tran 	Tuan 
+ID Badge:  164723
+Project name: AxS Project
+
+
+
+
+
+
+
+
+
+
+
+
+During the next two weeks, I am willing to help you in any way to make the transition as smooth as possible. This includes assisting in recruiting and training my replacement. Please let me know if there is anything specific that you would like me to do.
+
+Again, it has been a pleasure working as a part of your company
+
+
+
+
+
+
+
+
+
+
+
+
+
+DLT-SRVC-POTS:GPON01:ONTPOTS-1-1-11-1-1-2-2:2221;
+RTRV-SRVC-LAN:GPON01:ALL:1234:::;
+
+
+
+
+
+
+-----------------
+TL1 Verizion
+
+trong AMS clint
+client
++ Tạo role TL1 (TL1 roles) -> create user TL1 
++ Add user and password TL1user và enable session TL1 trong NE
++ Dien user password cho Internal TL GW setting do
+
+tạo user TL1 trên APC 
+rồi còn bước nào n[‎17/‎06/‎2016 11:22] Tran Tuan Anh: 
+:/ 
+[‎17/‎06/‎2016 11:22] Nguyen Thi Cam Bich: 
+
+
+
+telnet 192.168.92.236 port 4713
+ACT-USER:AMS:TL1User:123456::123456;
+ACT-USER:AMS:admin:00005::admin1;
+ACT-USER:CSAMS01:TL1user:00005::TL1user123;
+CANC-USER:AMS:::;
+
+*enter -> retrieve -> edit -> retrieve -> suspend -> retrieve -> resume -> retrieve -> migrate -> retrieve -> delete -> retrieve
+
+*Verison:
++ Data:
+- GPON:
+
+
+ENT-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:data::10M10M:ONTTYPE=GMDU,CVLANID=4012,VLANID=54,SERVICEID=1,LABEL=VDSL2POTSCombo,CVLANFDB=4012,CKTID=HSI,SUBSLOCID=WILDCARD:IS;
+RTRV-SRVC-LAN:172.21.176.241:ALL:data;
+RTRV-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:data::SERVICEID=1;
+ED-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:data::10M10M:LABEL=edited,CVLANID=4013,SUBSLOCID=WILDCARD;
+ED-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:data::10M10M::OOS;
+ED-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:data::10M10M::IS;
+ED-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:data::10M10M:SRVCTMPLT=20M20M;
+DLT-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:data::20M20M:SERVICEID=1;
+135.249.41.31
+ENT-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M:ONTTYPE=GMDU,CVLANID=4012,VLANID=54,SERVICEID=1,LABEL=EthPotsCombo,CVLANFDB=4012,CKTID=HSI,SUBSLOCID=WILDCARD:IS;
+RTRV-SRVC-LAN:172.21.176.241:ALL:data;
+RTRV-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::SERVICEID=1;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M:LABEL=edited,CVLANID=4013,SUBSLOCID=WILDCARD;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M::OOS;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M::IS;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M:SRVCTMPLT=20M20M;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M:SRVCTMPLT=50M_35M_D;
+DLT-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::20M20M:SERVICEID=1;
+
+ENT-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:::10M10M:ONTTYPE=GSFU,CVLANID=4012,VLANID=54,SERVICEID=1,LABEL=Ethernet,CVLANFDB=4012,CKTID=HSI,SUBSLOCID=WILDCARD:IS; 
+RTRV-SRVC-LAN:172.21.176.241:ALL:data;
+RTRV-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::SERVICEID=1;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M:LABEL=edited,CVLANID=4013,SUBSLOCID=WILDCARD;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M::OOS;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M::IS;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::10M10M:SRVCTMPLT=20M20M;
+DLT-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:data::20M20M:SERVICEID=1;
+
+ENT-SRVC-LAN:172.21.176.241:ONTMOCA-1-1-5-2-1-1-1:::10M10M:ONTTYPE=GSFU,CVLANID=4012,VLANID=54,SERVICEID=1,LABEL=MOCA,CVLANFDB=4012,CKTID=HSI,SUBSLOCID=WILDCARD:IS;
+RTRV-SRVC-LAN:172.21.176.241:ALL:data;
+RTRV-SRVC-LAN:172.21.176.241:ONTMOCA-1-1-5-2-1-1-1:data::SERVICEID=1;
+ED-SRVC-LAN:172.21.176.241:ONTMOCA-1-1-5-2-1-1-1:data::10M10M:LABEL=edited,CVLANID=4013,SUBSLOCID=WILDCARD;
+ED-SRVC-LAN:172.21.176.241:ONTMOCA-1-1-5-2-1-1-1:data::10M10M::OOS;
+ED-SRVC-LAN:172.21.176.241:ONTMOCA-1-1-5-2-1-1-1:data::10M10M::IS;
+ED-SRVC-LAN:172.21.176.241:ONTMOCA-1-1-5-2-1-1-1:data::10M10M:SRVCTMPLT=20M20M;
+DLT-SRVC-LAN:172.21.176.241:ONTMOCA-1-1-5-2-1-1-1:data::20M20M:SERVICEID=1;
+
++ RF_Video:
+ENT-SRVC-LAN:172.21.176.241:ONTVIDUNI-1-1-5-2-1-1-1:video::RF_Video:SUBSLOCID=WILDCARD:IS;
+RTRV-SRVC-LAN:172.21.176.241:ALL:video;
+RTRV-SRVC-LAN:172.21.176.241:ONTVIDUNI-1-1-5-2-1-1-1:video::SERVICEID=1;
+ED-SRVC-LAN:172.21.176.241:ONTVIDUNI-1-1-5-2-1-1-1:video::RF_Video:SUBSLOCID=WILDCARD;
+ED-SRVC-LAN:172.21.176.241:ONTVIDUNI-1-1-5-2-1-1-1:video::RF_Video::OOS;
+ED-SRVC-LAN:172.21.176.241:ONTVIDUNI-1-1-5-2-1-1-1:video::RF_Video::IS;
+ED-SRVC-LAN:172.21.176.241:ONTVIDUNI-1-1-5-2-1-1-1:video::RF_Video:SRVCTMPLT=RF_Video_FEC;
+DLT-SRVC-LAN:172.21.176.241:ONTVIDUNI-1-1-5-2-1-1-1:video::RF_Video_FEC:SERVICEID=1;
+
++ Voice SIP:
+ENT-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip::2SIP_FTTP:TN=1234567890,LABEL=Test,CUSTINFO=sip,SPGUNAME=sip,SPGPWD=sip,ONTTYPE=GSFU,ONTCARDTYPE=POTS,SVLAN=54,SRCVLANID=4012,CVLANFDB=4012,SUBSLOCID=WILDCARD,CLIENTID=sip,REALM=sip:IS;
+RTRV-SRVC-VOIP:172.21.176.241:ALL:sip:::;
+RTRV-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1234567890;
+RTRV-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1111111111;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1111111111,LABEL=edited,SUBSLOCID=WILDCARD,SPGUNAME=edited,SPGPWD=edited,CLIENTID=edited;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip::::OOS;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip::::IS;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::SRVCTMPLT=8SIP_FTTP;
+DLT-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip;
+
+ENT-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:::2SIP_FTTP:TN=1234567890,LABEL=Test,CUSTINFO=sip,SPGUNAME=sip,SPGPWD=sip,ONTTYPE=GMDU,ONTCARDTYPE=VDSLPOTS,SVLAN=54,SRCVLANID=4012,CVLANFDB=4012,SUBSLOCID=WILDCARD,CLIENTID=sip,REALM=sip:IS;
+RTRV-SRVC-VOIP:172.21.176.241:ALL:sip:::;
+RTRV-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1234567890;
+RTRV-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1111111111;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1111111111,LABEL=edited,SUBSLOCID=WILDCARD,SPGUNAME=edited,SPGPWD=edited,CLIENTID=edited;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip::::OOS;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip::::IS;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::SRVCTMPLT=8SIP_FTTP;
+DLT-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip;
+
+ENT-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:::2SIP_FTTP:TN=1234567890,LABEL=Test,CUSTINFO=sip,SPGUNAME=sip,SPGPWD=sip,ONTTYPE=GMDU,ONTCARDTYPE=ETHPOTS,SVLAN=54,SRCVLANID=4012,CVLANFDB=4012,SUBSLOCID=WILDCARD,CLIENTID=sip,REALM=sip:IS;
+RTRV-SRVC-VOIP:172.21.176.241:ALL:sip:::;
+RTRV-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1234567890;
+RTRV-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1111111111;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::TN=1111111111,LABEL=edited,SUBSLOCID=WILDCARD,SPGUNAME=edited,SPGPWD=edited,CLIENTID=edited;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip::::OOS;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip::::IS;
+ED-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip:::SRVCTMPLT=8SIP_FTTP;
+DLT-SRVC-VOIP:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:sip;
+
++ Voice H248:
+ENT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::2POTS_GR303:ONTTYPE=GMDU,IGTYPE=303,TN=9633246099,IG=1,CRV=1001,ontcardtype=VDSL2POTS,LABEL=voice,CUSTINFO=voice,SUBSLOCID=WILDCARD,POTSGRP=1,SVLAN=3012;
+RTRV-SRVC-POTS:172.21.176.241:ALL:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=9633246099;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111,LABEL=edited,SUBSLOCID=WILDCARD;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::OOS;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::IS;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::SRVCTMPLT=8POTS_GR303;
+DLT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice;
+
+ENT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::2POTS_GR303:ONTTYPE=GSFU,IGTYPE=303,TN=9633246098,IG=1,CRV=1002,ontcardtype=POTS,LABEL=voice,CUSTINFO=voice,SUBSLOCID=WILDCARD,POTSGRP=1,SVLAN=3012;
+RTRV-SRVC-POTS:172.21.176.241:ALL:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=9633246098;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111,LABEL=edited,SUBSLOCID=WILDCARD;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::OOS;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::IS;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::SRVCTMPLT=8POTS_GR303;
+DLT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice;
+
+ENT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::2POTS_GR303:ONTTYPE=GMDU,IGTYPE=303,TN=9633246099,IG=1,CRV=1003,ontcardtype=ETHPOTS,LABEL=voice,CUSTINFO=voice,SUBSLOCID=WILDCARD,POTSGRP=1,SVLAN=3012;
+RTRV-SRVC-POTS:172.21.176.241:ALL:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=9633246099;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111,LABEL=edited,SUBSLOCID=WILDCARD;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::OOS;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::IS;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::SRVCTMPLT=8POTS_GR303;
+DLT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice;
+
++ SES:
+ENT-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:ses::SES_10M_UNI:ONTTYPE=GSFU,VLANID=3012,SERVICEID=1,LABEL=Ethernet,CKTID=ses,RATELIMITUSDHCP=16,RATELIMITUSARP=16;
+RTRV-SRVC-LAN:172.21.176.241:ALL:ses;
+RTRV-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:ses::SERVICEID=1;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:ses::SES_10M_UNI:LABEL=edited,CKTID=edited,SUBSLOCID=WILDCARD;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:ses::SES_10M_UNI::OOS;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:ses::SES_10M_UNI::IS;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:ses::SES_10M_UNI:SRVCTMPLT=SES_100M_UNI;
+DLT-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:ses::SES_100M_UNI:SERVICEID=1;
+
++ CES:
+ENT-SRVC-CES:172.21.176.241:ONTDS1-1-1-5-2-1-1-1:ces::DS1_SERVICE:CESIPADD=0.0.0.0,ONTTYPE=GSBU,BWPROFUPNM=1_DS1,BWPROFDNNM=1_DS1,SVLAN=3012,SRCVLANID=0,NETMASKLOC=0.0.0.0,DEFROUTER=0.0.0.0,CKTID=ces,SERVICEID=1,SRCUDP=65535,DSTURI="123test":IS;
+RTRV-SRVC-CES:172.21.176.241:ALL:ces:::;
+RTRV-SRVC-CES:172.21.176.241:ONTDS1-1-1-5-2-1-1-1:ces:::CESIPADD=0.0.0.0,SERVICEID=1;
+ED-SRVC-CES:172.21.176.241:ONTDS1-1-1-5-2-1-1-1:ces:::SUBSLOCID=WILDCARD,SERVICEID=1,DSTURI="456test",ENCODING=B8ZS,LLENGTH=0TO133FT,BWPROFUPNM=10M,BWPROFDNNM=10M;
+ED-SRVC-CES:172.21.176.241:ONTDS1-1-1-5-2-1-1-1:ces::::OOS;
+ED-SRVC-CES:172.21.176.241:ONTDS1-1-1-5-2-1-1-1:ces::::IS;
+ED-SRVC-CES:172.21.176.241:ONTDS1-1-1-5-2-1-1-1:ces:::SRVCTMPLT=DS1_SERVICE_FEC;
+DLT-SRVC-CES:172.21.176.241:ONTDS1-1-1-5-2-1-1-1:ces:::SERVICEID=1;
+
+- ISAM FX:
++ SES:
+ENT-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:ses::VZ_1G_SES:ONTTYPE=GSFU,PORTID=1,CVLANID=3012,SUBSLOCID=1,CKTID=CKTID_99,PAEPORTSTATE=ENABLED,VLANFIXMAP=DUAL,LABEL=Label_21,NTPORT=NTAXFP-1:IS;
+RTRV-SRVC-LAN:172.21.176.228:ALL:ses;
+RTRV-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:ses;
+ED-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:ses::VZ_1G_SES:LABEL=edited,SUBSLOCID=edited,CKTID=edited;
+ED-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:ses::VZ_1G_SES::OOS;
+ED-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:ses::VZ_1G_SES::IS;
+DLT-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:ses::VZ_1G_SES;
+
++ Voice H.248
+ENT-SRVC-POTS:DETECTED_AT_135.249.46.7:ONTPOTS-1-1-4-16-45-2-1:::7360_POTS_GR303:ONTTYPE=GSFU,IGTYPE=303,TN=9633246099,IG=1,CRV=1145,ontcardtype=POTS;
+
+*AT&T:
+- GPON:
++ Data&Video:
+ENT-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:DV::7342_36M_5M_SFU:CKTID=A7/MCXX/704677//SW,ONTTYPE=GSFU,SUBSLOCID=1,VLANFIXMAP=DUAL:IS;
+RTRV-SRVC-LAN:172.21.176.241:ALL:DV;
+RTRV-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:DV::SERVICEID=1;
+ED-8021XPAE:172.21.176.241:USERPORT-1-1-5-2-1-1-1::::PAEPORTSTATE=ENABLED;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:DV::7342_36M_5M_SFU:LABEL=edited,CKTID=edited,SUBSLOCID=edited;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:DV::7342_36M_5M_SFU::OOS;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:DV::7342_36M_5M_SFU::IS;
+ED-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:DV::7342_36M_5M_SFU:SRVCTMPLT=7342_85M_8M_SFU;
+DLT-SRVC-LAN:172.21.176.241:ONTENET-1-1-5-2-1-1-1:DV::7342_85M_8M_SFU:SERVICEID=1;
+
+ENT-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:DV::7342_M300_36M_5M_MDU:CKTID=A7/MCXX/704678//SW,ONTTYPE=,VLANFIXMAP=:IS;
+RTRV-SRVC-LAN:172.21.176.241:ALL:DV;
+RTRV-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:DV::SERVICEID=1;
+ED-8021XPAE:172.21.176.241:USERPORT-1-1-5-2-1-1-1::::PAEPORTSTATE=ENABLED;
+ED-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:DV::7342_M300_36M_5M_MDU:LABEL=edited,CKTID=edited,SUBSLOCID=edited;
+ED-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:DV::7342_M300_36M_5M_MDU::OOS;
+ED-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:DV::7342_M300_36M_5M_MDU::IS;
+ED-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:DV::7342_M300_36M_5M_MDU:SRVCTMPLT=7342_M300_13M_1DOT5M_MDU;
+DLT-SRVC-LAN:172.21.176.241:ONTVDSL2-1-1-5-2-1-1-1:DV::7342_M300_13M_1DOT5M_MDU:SERVICEID=1;
+
++ Voice H248:
+ENT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::GSFU_POTS:IG=3,IGTYPE=303,CRV=1921,TN=9954453322,ONTTYPE=GSFU,POTSGRP=1:IS;
+RTRV-SRVC-POTS:172.21.176.241:ALL:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=9954453322;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111,LABEL=edited,SUBSLOCID=1;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::OOS;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::IS;
+DLT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice;
+
+ENT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::GMDU_POTS:IG=3,IGTYPE=303,CRV=1924,TN=9332333455,ONTTYPE=GMDU,POTSGRP=1:IS;
+RTRV-SRVC-POTS:172.21.176.241:ALL:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=9332333455;
+RTRV-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111,LABEL=edited,SUBSLOCID=1;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::OOS;
+ED-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice::::IS;
+DLT-SRVC-POTS:172.21.176.241:ONTPOTS-1-1-5-2-1-1-1:voice;
+
+- ISAM FX:
++ Data&Video:
+ENT-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:voice::7360_36M_5M_SFU:ONTTYPE=GSFU,PORTID=1,SUBSLOCID=1,CKTID=CKTID_99,VLANFIXMAP=DUAL,LABEL=Label_21,LAGID=LAG-1:IS;
+RTRV-SRVC-LAN:172.21.176.228:ALL:DV;
+RTRV-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:DV;
+ED-8021XPAE:172.21.176.228:USERPORT-1-1-5-2-1-1-1::::PAEPORTSTATE=ENABLED;
+ED-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:DV::7360_36M_5M_SFU:LABEL=edited,SUBSLOCID=edited,CKTID=edited,PAEPORTSTATE=ENABLED;
+ED-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:DV::7360_36M_5M_SFU::OOS;
+ED-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:DV::7360_36M_5M_SFU::IS;
+ED-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:DV::7360_36M_5M_SFU:SRVCTMPLT=7360_55M_6M_SFU;
+DLT-SRVC-LAN:172.21.176.228:ONTENET-1-1-5-2-1-1-1:DV::7360_55M_6M_SFU;
+
++ Voice H.248:
+ENT-SRVC-POTS:172.21.176.228:ONTPOTS-1-1-5-2-1-1-1:voice::7360_GSFU_POTS:IG=1,IGTYPE=303,CRV=2003,TERMID=tp11,TN=1234567890,VOIPSERV=1,CUSTINFO=custinfo,LABEL=voice,SUBSLOCID=1,POTSGRP=1,SRCVLANID=4040,ONTTYPE=GSFU:IS;
+RTRV-SRVC-POTS:172.21.176.228:ALL:::;
+RTRV-SRVC-POTS:172.21.176.228:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1234567890;
+RTRV-SRVC-POTS:172.21.176.228:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111;
+ED-SRVC-POTS:172.21.176.228:ONTPOTS-1-1-5-2-1-1-1:voice:::TN=1111111111,LABEL=edited,SUBSLOCID=edited,FEC=ENABLED;
+ED-SRVC-POTS:172.21.176.228:ONTPOTS-1-1-5-2-1-1-1:voice::::OOS;
+ED-SRVC-POTS:172.21.176.228:ONTPOTS-1-1-5-2-1-1-1:voice::::IS;
+DLT-SRVC-POTS:172.21.176.228:ONTPOTS-1-1-5-2-1-1-1:voice;
+
+- ISAM SX:
++ Voice H.248:
+ENT-SRVC-POTS:135.249.46.2:POTS-1-1-2-4:voice::7367_POTS_303:IG=1,IGTYPE=303,CRV=89,TN=0123456789:IS;
+RTRV-SRVC-POTS:135.249.46.2:ALL:voice:::;
+RTRV-SRVC-POTS:135.249.46.2:POTS-1-1-2-4:voice:::TN=0123456789;
+RTRV-SRVC-POTS:135.249.46.2:POTS-1-1-2-4:voice:::TN=1111111111;
+ED-SRVC-POTS:135.249.46.2:POTS-1-1-2-4:voice:::TN=1111111111:IS;
+ED-SRVC-POTS:135.249.46.2:POTS-1-1-2-4:voice::::OOS;
+ED-SRVC-POTS:135.249.46.2:POTS-1-1-2-4:voice::::IS;
+ED-SRVC-POTS:135.249.46.2:POTS-1-1-2-4:voice:::SRVCTMPLT=7367_POTS_303_migrate:IS;
+DLT-SRVC-POTS:135.249.46.2:POTS-1-1-2-4:voice;
+
+ENT-SRVC-POTS:RALATT7360:ONTPOTS-1-1-8-7-3-2-1:::7360GSFUPOTS:IG=5,IGTYPE=303,CRV=873,TN=7776687623,ONTTYPE=GSFU,POTSGRP=1:IS;
+ENT-SRVC-LAN:RALATT7360:ONTENET-1-1-8-7-2-1-1:9009:: 7360300M300MSFU:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport6,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS;
+ED-SRVC-LAN:RALATT7360:ONTENET-1-1-8-7-3-2-1:9009::7360300M300MSFU:SRVCTMPLT=73601G1GSFU;
+ED-SRVC-LAN:RALATT7360:ONTENET-1-1-8-7-3-2-1:9009::73601G1GSFU:SRVCTMPLT=7360300M300MSFU;
+ED-SRVC-LAN:RALATT7360:ONTENET-1-1-8-7-3-2-1:9009::7360300M300MSFU:SRVCTMPLT=73601G1GSFU;
+DLT-SRVC-LAN:RALATT7360:ONTENET-1-1-8-7-3-2-1:9009::7360_1G_1G_SFU;
+DLT-SRVC-POTS:RALATT7360:ONTPOTS-1-1-8-7-3-2-1;
+
+ENT-SRVC-POTS:STEELERSOL:ONTPOTS-1-1-7-4-1-2-1:::7360_GSFU_POTS:IG=2,IGTYPE=303,CRV=873,TN=7776687623,ONTTYPE=GSFU,SUBSLOCID=RICKTEST,POTSGRP=1:IS;
+IP 0
+<
+
+   STEELERSOL 15-12-09 11:48:19
+M  0 COMPLD
+   /* ENT-SRVC-POTS:STEELERSOL:ONTPOTS-1-1-7-4-1-2-1:::7360_GSFU_POTS:IG=2,IGTYPE=303,CRV=873,TERMID=tp21,ONTTYPE=GSFU,ONTCARDTYPE=POTS,TN=7776687623,SVLAN=0,VOIPCLIENTADDR=10.204.103.192,SUBSLOCID=RICKTEST,CUSTINFO=,LABEL=,CKTID=,POTSGRP=,SRCVLANID=4040:IS */
+   /* 1 VoIP H248 Service Entered */
+;
+<ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-1-1:9009::7360_300M_300M_SFU:ONTTYPE=GSFU,VLANFIXMAP=DUAL,PAEPORTSTATE=ENABLED,SUBSLOCID=RICKTEST,CKTID=OrangeDV6,LAGID=LAG-10:IS;
+IP 9009
+<
+
+   STEELERSOL 15-12-09 11:57:14
+M  9009 COMPLD
+   /* ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-1-1:9009::7360_300M_300M_SFU:ONTTYPE=GSFU,VLANFIXMAP=DUAL,PAEPORTSTATE=ENABLED,SUBSLOCID=RICKTEST,CKTID=OrangeDV6,LAGID=LAG-10:IS */
+   /* VLANID=101, CVLANID=2*/
+;
+<ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-1-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID;
+IP 9009
+<
+
+   STEELERSOL 15-12-09 11:59:17
+M  9009 DENY
+   /* ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-1-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID */
+   SABT
+   /* Status, Aborted */
+   /* Unable to set attributes on service object */
+;
+<
+
+
+
+Below are more specifics regarding which transactions worked and which failed and the associated results.  Also attached is the applicable apc-audit.log file.
+
+Test Case 1 (all 3 TL1 commands appear to work but the ED_SRVC_LAN does not set the downstream profiles correctly—see the pictures):
+
+<ENT-SRVC-POTS:STEELERSOL:ONTPOTS-1-1-7-4-1-2-1:::7360_GSFU_POTS:IG=2,IGTYPE=303,CRV=873,TERMID=tp21,ONTTYPE=GSFU,ONTCARDTYPE=POTS,TN=7776687623,SVLAN=0,VOIPCLIENTADDR=10.204.103.192,SUBSLOCID=,CUSTINFO=,LABEL=,CKTID=,POTSGRP=,SRCVLANID=4040:IS */
+   /* 1 VoIP H248 Service Entered */
+
+<ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009:: 7360_300M_300M_SFU:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport6,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS;
+IP 9009
+<
+
+   STEELERSOL 15-12-08 14:32:02
+M  9009 COMPLD
+   /* ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009:: 7360_300M_300M_SFU:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport6,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS */
+   /* VLANID=101, CVLANID=26*/
+;
+<ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID;
+IP 9009
+<
+
+   STEELERSOL 15-12-08 14:33:16
+M  9009 COMPLD
+   /* ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID */
+;
+
+Note upstream Bandwidth Profile is for new data service:
+
+
+
+Test Case 2 (both tests were successful):
+<ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport6,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS;
+IP 9009
+   STEELERSOL 15-12-08 14:18:54
+M  9009 COMPLD
+   /* ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport6,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS */
+   /* VLANID=101, CVLANID=26*/
+
+<ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID;
+IP 9009
+<
+
+   STEELERSOL 15-12-08 14:33:16
+M  9009 COMPLD
+   /* ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID */
+;
+
+Test Case 3:
+<ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-4-1:9009::7360_1G_1G_SFU_VID:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport8,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS;
+IP 9009
+<
+
+   STEELERSOL 15-12-08 14:51:39
+M  9009 COMPLD
+   /* ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-4-1:9009::7360_1G_1G_SFU_VID:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport8,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS */
+   /* VLANID=101, CVLANID=38*/
+;
+<
+
+ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-4-1:9009::7360_1G_1G_SFU_VID:SRVCTMPLT=7360_300M_300M_SFU;
+IP 9009
+<
+
+   STEELERSOL 15-12-08 14:55:57
+M  9009 COMPLD
+   /* ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-4-1:9009::7360_1G_1G_SFU_VID:SRVCTMPLT=7360_300M_300M_SFU */
+;
+<
+
+ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-4-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID;
+IP 9009
+<
+
+   STEELERSOL 15-12-08 14:58:27
+M  9009 COMPLD
+   /* ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-4-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID */
+;
+<
+
+ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-4-1:9009::7360_1G_1G_SFU_VID:SRVCTMPLT=7360_300M_300M_SFU;
+IP 9009
+<
+
+   STEELERSOL 15-12-08 15:01:44
+M  9009 COMPLD
+   /* ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-4-1:9009::7360_1G_1G_SFU_VID:SRVCTMPLT=7360_300M_300M_SFU */
+;
+<;<ENT-SRVC-POTS:STEELERSOL:ONTPOTS-1-1-7-4-1-2-1:::7360_GSFU_POTS:IG=2,IGTYPE=303,CRV=873,TN=7776687623,ONTTYPE=GSFU,POTSGRP=1:IS;
+IP 0
+<
+
+   STEELERSOL 15-12-08 15:05:17
+M  0 COMPLD
+   /* ENT-SRVC-POTS:STEELERSOL:ONTPOTS-1-1-7-4-1-2-1:::7360_GSFU_POTS:IG=2,IGTYPE=303,CRV=873,TERMID=tp21,ONTTYPE=GSFU,ONTCARDTYPE=POTS,TN=7776687623,SVLAN=0,VOIPCLIENTADDR=10.204.103.192,SUBSLOCID=,CUSTINFO=,LABEL=,CKTID=,POTSGRP=,SRCVLANID=4040:IS */
+   /* 1 VoIP H248 Service Entered */
+
+Test Case 4 (all TL1 commands work but there is an error and upstream and downstream profiles do not match the 7360_1G_1G_SFU_VID stack):
+
+ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport6,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS;
+IP 9009
+<
+
+   STEELERSOL 15-12-08 14:18:53
+** 56 REPT ALM ONTCARD
+   "ONTCARD-1-1-7-4-1-3:MJ,LIMSVCMIS,SA,12-8,14-18-53:
+   \"OLT or ONT did not accept the configuration request for the Card\""
+;
+
+   STEELERSOL 15-12-08 14:18:54
+M  9009 COMPLD
+   /* ENT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:ONTTYPE=GSFU,VLANFIXMAP=Dual,PORTID=1,LABEL=DVport6,PAEPORTSTATE=ENABLED,CKTID=OrangeDV6,LAGID=LAG-10:IS */
+   /* VLANID=101, CVLANID=26*/
+
+ED-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_300M_300M_SFU:SRVCTMPLT=7360_1G_1G_SFU_VID;
+IP 9009
+<
+   STEELERSOL 15-12-08 14:21:24
+M  9009 COMPLD
+
+
+7360_1G_1G_SFU_VID
+   STEELERSOL 15-12-08 14:24:23
+M  9009 COMPLD
+   /* DLT-SRVC-LAN:STEELERSOL:ONTENET-1-1-7-4-1-3-1:9009::7360_1G_1G_SFU_VID */
+;
+
+<ENT-SRVC-POTS:STEELERSOL:ONTPOTS-1-1-7-4-1-2-1:::7360_GSFU_POTS:IG=2,IGTYPE=303,CRV=873,TN=7776687623,ONTTYPE=GSFU,POTSGRP=1:IS;
+IP 0
+<
+
+   STEELERSOL 15-12-08 14:28:07
+M  0 COMPLD
+   /* ENT-SRVC-POTS:STEELERSOL:ONTPOTS-1-1-7-4-1-2-1:::7360_GSFU_POTS:IG=2,IGTYPE=303,CRV=873,TERMID=tp21,ONTTYPE=GSFU,ONTCARDTYPE=POTS,TN=7776687623,SVLAN=0,VOIPCLIENTADDR=10.204.103.192,SUBSLOCID=,CUSTINFO=,LABEL=,CKTID=,POTSGRP=,SRCVLANID=4040:IS */
+   /* 1 VoIP H248 Service Entered */
+;
+
+
+
+
+	
+
+------------------------
+DELETE tempales
+	http://192.168.95.219:8080/apc/default.html?bookmarkablePage=com.alcatel.apc.html.core.EngineeringToolkitPage 
+	http://192.168.95.151:8080/apc/default.html?bookmarkablePage=com.alcatel.apc.html.core.EngineeringToolkitPage
+	http://192.168.95.214:8080/apc/default.html?bookmarkablePage=com.alcatel.apc.html.core.EngineeringToolkitPage 
+
+
+
+ENT-SRVC-POTS:135.249.41.31:ONTPOTS-1-1-16-1-1-2-1:1111::GMDU_POTS_08:ONTTYPE=GMDU,IG=5,IGTYPE=08,CRV=19,TN=0188888111,
+SVLAN=4040,CUSTINFO=ATT,LABEL=POTS,SUBSLOCID=1:IS;
+
+
+
+
+
+
+
+ENT-SRVC-POTS:GPON:ONTPOTS-1-1-16-1-1-2-1:1111::GMDU_POTS_TR08:ONTTYPE=GMDU,IG=5,IGTYPE=08,CRV=19,TN=0188888111,
+SVLAN=4040,CUSTINFO=ATT,LABEL=POTS,SUBSLOCID=1:IS;
+
+
+
+--------------------------------------
+Port Name,Status,Error
+Detected_at_135.249.41.180:1-1-1-2-2,Failed,Template not supported on port: APC configure operation failed
+,,  Unable to use apc.isam.pon.voip.uni null null for Detected_at_135.249.41.180:1-1-1-2-2: invalid configurator. 
+
+
+
+clean, auditPort 
+
+Problem: 
+
+Port Name,Status,Error
+135.249.41.30:1-1-2-2-3,Failed,Generic configuration error: APC configure operation failed
+,,"  Could not configure the complete configuration, did a successful rollback"
+,,  Could not configure G7342 ONT Ethernet Port on 1-1-2-2-3-1
+,,  com.alcatel.ni.commands.core.command.CouldNotResolveException: The value 'global_dscpPbitMap_profile' for attribute ethPortDscpProfileName could not be found on '135.249.41.30'
+,,  The value 'global_dscpPbitMap_profile' for attribute ethPortDscpProfileName could not be found on '135.249.41.30'
+
+Solutions: 
+dgdh
+----------------------------------
+..
+Layer2-IGMP-channel 
+
+Problem: 
+Port Name,Status,Error
+135.249.41.30:1-1-1-1-8,Failed,Lower layer missing: APC configure operation failed
+,,"  Lower layer missing, cannot configure Stack: Layer2-IGMP-channel"
+////// 
+
+Solutions: 
+Must Apply ONT service first, then Apply Service Template on ONT that recently created.
+Can apply ONT by Layer0-gpon-ont template : 
+	+ input Subcriber Location ID
+	+ Downstream : ONT_based
+
+UniVlan must be equal 0
+
+----------------------
+user profile : 
+template super user/ role: 
+
++ template super user + web access  :  + (administration profile) Auto provisioning: visible
+									   + (Only) Can change the templates that was applied.
+									   + (Only) Can change a mapping rule the template that was applied
+										( after click apply change/OK operation at mapping level->  super user cannot delete that mapping rule) 
+									   + (Only) Exclude from Audit/Discover/... in template  
+
+
+
+
+
+
+Adding group amssys
+Creating group amssys
+Adding group amssftp
+Creating group amssftp
+Adding group amsftp
+Creating group amsftp
+Creating user amssys
+Creating user amssftp
+Creating user amsftp
+Creating replication user amsreplusr
+Creating admin user amsadminusr
+
+
+
+//Linux
+http://www.freeos.com/guides/lsst/ch01sec05.html
+------------------
+To change the Direction: D:
+------------------
+build: 
+http://avatar.in.alcatel-lucent.com/releases/index.php?release=9.3.10.4 
+---------
+
+server : 
+RHEL7  : 192.168.92.124
+Solaris 10 : 192.168.72.245 
+
+
+Chrome linux
+192.168.92.124:1
+Lunching Chrome webrwser: 
+ google-chrome
+
+
+
+
+
+
+ http://tiger.in.alcatel-lucent.com:8091/browse/APC-6122
+ 
+ 
+ 
+ 
+ --------------------------------------------
+ DSL-LuxDSL (HSI) / template/ PTLux: use C-VLAN 
+ Must create the PPP CC Engineer for C-VLAN 
+
+
+--------------------------
+install /cluster /sync time / 
+
+date -s  [time]
+example: date -s 10:22:42
+
+date -s "2 OCT 2006 18:00:00"
+
+------------------------------
+DISCOVER : 
+Should note the parameter in template: 
+
+
+
+
+
+--------------------------------------------
+Channel Pair Preferred/ NG-PON2: NGPON2
+-- 
+To create a Channel Pair Preferred: 
+- Planning the Slot LT -> (FWLT-A)
+ + In Channel Pair, right click -> action -> configure ->  enter value and finish. 
+- At NG-PON2: Left click, in Object Details at Associated Channel Pairs (End of the view)-> Add -> choose the Channel Pair above. 
+- The same step like NG-PON2 for the Chanel 
+
+
+--------------------------------------
+PROBLEM
+Port Name,Status,Error
+Detected_at_135.249.41.68:1-1-2,Failed,Generic configuration error: APC configure operation failed
+,,"  Could not configure the complete configuration, did a successful rollback"
+,,  Could not configure ISAM Residential Bridge VLAN Association on 1-1-2-1-1
+,,  Configuration of Following Configurator Failed: Residential bridge vlan association(ETSI) ... Rollback Succeeded
+,,  VLAN MGT error 277 : Attach ingress QoS profile to VLAN port refused due to missing bandwidth profile on queue.; 
+-----------------------------------------------------
+SOLUTION
+In Network Tree (AMS GUI)
+Infrastructure -> Tranimission -> Layer2 ->  Left click on the VLAN above, in QoS tab -> Broswer -> Create -> Next -> enter ONLY NAME ->  finish 
+
+-----------------
+PROBLEM: 
+---------------
+XDSL/ ISAM 54 
+Port Name,Status,Error
+ISAM02:1-1-3-1,Failed,Generic configuration error: APC configure operation failed
+,,  Could not configure ISAM/ASAM XDSL ATM PTM on 1-1-3-1
+,,  Configuration of Following Configurator Failed: XDSL atm ptm(ETSI) ... Rollback Succeeded
+,,  Bonding Group not configured
+
+
+Port Name,Status,Error
+ISAM02:1-1-3-1,Failed,Generic configuration error: APC configure operation failed
+,,  Could not configure ISAM/ASAM XDSL ATM PTM on 1-1-3-1
+,,  Configuration of Following Configurator Failed: XDSL atm ptm(ETSI) ... Rollback Succeeded
+,,  Bonding Group not configured
+
+-------------------
+SOLUTION:  
+On XDSL port: create a Bonding link, then left click on Bonding Group ->  Go to -> configure Bonding Group Profile and Bonding Group RTX profile and apply. 
+
+
+---------------------------------
+Move service from XDSL port to another XDSL port.
+When create template stack, must be include ISAM/ASAM XDSL Bonding Group and ISAM/ASAM XDSL ATM PTM.
+and the ISAM/ASAM XDSL Bonding Group always in the left of the ISAM/ASAM XDSL ATM PTM.
+
+
+
+Verify bug
+
+[‎14/‎07/‎2016 10:48] Nguyen Thi Cam Bich: 
+http://tiger.in.alcatel-lucent.com:8090/display/Conv/9.4.05+Release+Page 
+em su dung build tren wiki nhe
+[‎14/‎07/‎2016 10:50] Nguyen Thi Cam Bich: 
+ma em qua day di
+chi chi cho cai
+[‎14/‎07/‎2016 10:54] Nguyen Thi Cam Bich: 
+http://fastsnapshot.in.alcatel-lucent.com:8080/browse/AMS-AMS940ALL-3965/artifact/JOB1/binaries/ 
+cho de lay build affected/redilever
+[‎14/‎07/‎2016 10:55] Nguyen Thi Cam Bich: 
+Component Version Core Build 
+-------------------------------------------------- 
+ams 9.4.03 - 288402 x-x
+ams-ef 9.4.03ef7 - 305409 
+app-apc 1.3 9.4 305267  x-x
+app-idm 1.3 9.4 288119  x-x 
+app-lrm 1.3 9.4 288119 xx 
+app-np 1.3 9.4 288119 xx
+app-oad 1.3 9.4 288119 -----
+app-sdc 1.3 9.4 288119 xx
+app-spfe 1.3 9.4 288119 xx
+combo-isam-4.5 1.3a 9.4 305404 xx
+combo-isam-5.1 1.2a 9.4 305404 xx
+np-isam-4.5 1.2 9.4 288119 ---
+np-isam-5.1 1.2 9.4 288119 ---
+[‎14/‎07/‎2016 10:59] Nguyen Thi Cam Bich: 
+cai AD_A nhe
+
+
+
+----------------------------------
+check: status AMS server 
+AMSSYS_HOME=`getent passwd amssys | cut -d':' -f 6`
+if [ ! -f $AMSSYS_HOME/lib/platform/bin/ams_include.sh ]; then
+        echo "AMS Server is not activated"
+        exit 1
+else
+    diff $AMSSYS_HOME/conf/ams.conf `dirname $0`/../conf/ams.conf > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "ERROR: Another AMS version is already activated" >&2
+        exit 1
+    fi
+        export AMSSYS_HOME
+fi
+        . $AMSSYS_HOME/lib/platform/bin/ams_include.sh
+
+
+
+-----------------------------------------------------------------------------
+Problem: Create a Cross Connect VLAN
+VLAN MGT error :  The outer S-VLAN should be RB or Layer 2-terminated mode in S+C RB 
+
+Solution: 
+First:  Create a S-VLAN number a with mode : Residential Bridge 
+
+---------- 
+Create a VLAN association : 
+Problem: VLAN MGT error 537: Tag control should be single tagged on this port: 
+ 
+Solution: Shut down the PC and go home :D 
+------ 
+NG-PON2
+
+
+
+
+
+
+Problem:
+
+Port Name,Status,Error
+135.249.41.19:1-1-2-1,Failed,Generic configuration error: APC configure operation failed
+,,  Could not configure ISAM Gigabit Ethernet Access on 1-1-2-1
+,,  Configuration of Following Configurator Failed: Gigabit Ethernet Access(ETSI) ... Rollback Succeeded
+,,  Could not translate 100BaseBX10D into an OID.
+
+
+Solution: 
+
+On object of Ethernet LT > MAU Parameters > MAU type > choose 1000BaseLX10 
+On ISAM Gigabit Ethernet Access template >  set MAU type = THOUSAND_BaseLX10
+
+
+
+
+----------------
+NPOT/ SIP/ DTAG
+
+[‎26/‎07/‎2016 11:07] Tran Thi My Thi: 
+em biet xai con NE nao co card NPOT de configure SIP service cho DTAG kn ?
+[‎26/‎07/‎2016 11:08] Tran Tuan Anh: 
+dạ chưa chị 
+:D 
+để em tìm thử 
+[‎26/‎07/‎2016 11:09] Tran Thi My Thi: 
+NE co subrack : NFSX-A/B
+[‎26/‎07/‎2016 11:10] Tran Tuan Anh: 
+dạ 
+[‎26/‎07/‎2016 11:10] Tran Thi My Thi: 
+NT board: NANT-A/D/E
+
+
+---------------------------------
+Wiki for DTAG 
+http://tiger.in.alcatel-lucent.com:8090/display/Conv/All+about+DTAG
+------------------------------------
+
+NOTE: 
+set Java Home
+readlink -f $(which java)
+vi ~/.bash_profile
+
+eg
+JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/jre/bin/java
+export JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64
+
+
+
+
+
+
+
+[root@server95151 DTAG-SIP-repair-tool-1.0]# echo $JAVA_HOME
+/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64
+[root@server95151 DTAG-SIP-repair-tool-1.0]# /bin/bash ./run.sh
+JAVA_HOME variable is not set. Set the JAVA_HOME and rerun the script.
+[root@server95151 DTAG-SIP-repair-tool-1.0]# vi run.sh
+
+#!/usr/bin/ksh
+
+if [ ! -z "$JAVA_HOME" ]
+then
+  echo "JAVA_HOME variable is not set. Set the JAVA_HOME and rerun the script.";
+  exit
+fi
+
+VIEWER_HOME=.
+
+JAVA=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.71.x86_64/bin/java
+NAME_PREFIX=$7
+CUR_DIR=`pwd`
+
+CLASSPATH=$CLASSPATH:$VIEWER_HOME/lib/DTAG-SIP-repair-tool-1.0.jar
+CLASSPATH=$CLASSPATH:$VIEWER_HOME/lib/mariadb-java-client-1.1.8.jar
+CLASSPATH=$CLASSPATH:$VIEWER_HOME/lib/log4j-1.2.15.jar
+
+$JAVA $JAVA_OPTS -cp $CLASSPATH com.alcatel.apc.tools.RepairTool $*
+
+"run.sh" 19L, 504C written
+[root@server95151 DTAG-SIP-repair-tool-1.0]# /bin/bash ./run.sh
+[07-26-2016@15:29:06] Usage: DbRepairTool <apcServer> <apcDbPort> <apcDbName> <apcDbUser> <apcDbPassword>
+[root@server95151 DTAG-SIP-repair-tool-1.0]# /bin/bash ./run.sh 192.168.95.151 3307 emlplatform root mysql
+Do you really want to continue with the repair? (yes/no)
+yes
+[07-26-2016@15:29:35] Executing Repair tool ...
+[07-26-2016@15:29:35] Total number of basic SIP templates: 5
+[07-26-2016@15:29:35] DB repaired successfully
+[root@server95151 DTAG-SIP-repair-tool-1.0]# 
+
+
+
+
+Apply. 
+
+7360_SIP template. 
++ Create  S-VLAN and C-VLAN
++ Create bandwidth profile : 2SIP
++ Set Planned software :  false 
+StrictPriority' for attribute voipUniQosProfiles_ShaperProfileDsQueue5 could not be found on '135.249.41.26'
+
+ 
+
+
+
+
+ -----------------------------
+ 
+ Auto provisionning / New ONT alarm / New ONT discovered.
+ 
+ Please check out new iNES Release 5.58 snapshot2 at 
+ For Solaris: 
+http://tiger.in.alcatel-lucent.com/svn/axs/tools/branches/ines/iNES/RELEASES/iNES_SNAPSHOT/iNES.5.58.x86.snapshot2.tar.gz 
+
+ For Redhat: 
+http://tiger.in.alcatel-lucent.com/svn/axs/tools/branches/ines/iNES/RELEASES/iNES_SNAPSHOT/iNES.5.58.redhat_lnx.snapshot2.tar.gz 
+
+ To raise alarm for NGPON2 ONT, you run script CreateNewOnt as below: 
+ ./CreateNewOnt -h 
+ CreateNewOnt Usage (iNES V3 Version 5.58/7Jan15 for Linux on PC-x86 
+ ): 
+   -i ip_address: IP address of the iNES 
+   -a <newont_aid>/<num> : NEWONT AID (e.g.: NEWONT-1-1-1-1-1 or NEWONT-1-1-1-1-1/64 or NEWONT-1-1-1-1-5/32 
+   -a <newont_aid>/<num> : NEWNG2 AID[only ISAM] (e.g.: NEWNG2-1-1-1-1-1 or NEWNG2-1-1-1-1-1/64 or NEWNG2-1-1-1-1-5/32 
+   -o <operation: CREATE=1,DELETE=0> : CREATE or DELETE 
+   -s <serial number>: The value of serial number begin with: ALCL. Ex: ALCLF3B87609 
+   -h : display this help message 
+ Ex: ./CreateNewOnt -i 50.50.51.15 -a NEWNG2-1-1-8-1-1 -o 1 -s ALCL000000A3 
+ 
+ 
+ 
+ ./CreateNewOnt -i 13.1.1.10 -a NEWONT-1-1-6-2-1 -o 1 -s ALCL000000A3 
+ 
+
+
+
+INES IP
+ 
+ 55.55.55.217	igb1:217
+
+ 
+
+
+
+
+
+ INES 
+ /auto/iNES_Release/5.68_9/build_lnx 
+192.168.72.251 
+cd /auto/iNES_Release/5.68_9/build_lnx
+export LD_LIBRARY_PATH=/auto/iNES_Release/5.68_9/build_lnx/mysql32bit/lib:/auto/iNES_Release/5.68_9/build_lnx/
+
+export MIBFILE=/auto/walkfile/ltinhuy/vlan/TOTAL_MIB.txt
+./iNESd -i 1 -s 13.1.1.10 -t FTTN -f /auto/walkfile/ltinhuy/vlan/iacm.raw &
+
+export MIBFILE=/auto/walkfile/ltinhuy/vlan/ihub_TOTAL_MIB.txt 
+./iNESd -i 1 -s 13.1.1.10 -t IHUB -f /auto/walkfile/ltinhuy/vlan/ihub.raw &
+
+
+------------
+
+
+
+
+Lower layer missing, cannot configure Stack: apply ko dung vi tri port hay ONT gi do
+------------
+ATT and Verizon: enable all setting apc
+note: custom ont -> if enable -> save object in Ne -> if not-> delete all despite NE
+
+-----------------------------------------------------------
+Video stack: GMDU and GSFU(Gpon)   (ATT??) (7342_36M_5M_SFU...)
+-clean (delete object on Ne -> missing Ne ->audit , un,reconfig
+-reapply service  
+------------------------------------------------
+  Bell Gpon:
+  Bell GPON
+
+When apply service template Bell GPON is error "The value 'ClientON_092010,1' for attribute ftp_ClientConfig_SipClientProfile could not be found on '5520 AMS EML PROVIDER"
+
+create SIP profile. on AMS GUI  in window=> showview=>sip profile
+note: khi tao SIP Client Profile, o tag protocol=>Registras URI go "sip:"
+Registrar Route:0.0.0.0
+Outbound Proxy:0.0.0.0
+
+with new lt vlan-> modify cvlan and lt -vlan to be different with the others.
+
+**
+Isam (FTTN FG 4.4) Bell ISAM (disable all??? or just ont override) (41.145...)
+ note: FX 7360 -> ATT (maybe 7320,7330)
+ 3 layer:l1,l2,l3
+ -install on card EVLT-N -> 2 mode: ATM and PTM 
+ ATM:
+ PTM:
+ -define of virtual agument
+ -layer1: xdsl
+ -layer2: vlan cross connect
+ -layer3: igmp ( only following 1 mode)
+ 
+ To provision L2 -> creat Vlan (Svlan -> L2 terminated)
+ vpi 8-35  (vpi=0 duoc)
+ 
+ flow:
+ -dbclean
+ -get configure template -> find needing agument
+ -import tp changed (modifiable and unmodifiable)
+ -audit -> missaligned
+ -reapply -> force -> check log -> un and re.
+ get
+ ----------------------------------------------------
+ VZ data and video ( enable all) -> 10M10M (gpon)
+ 
+ -change modifiable
+ -audit -> missaligned
+ -reapply -> modify only
+ -log -> check apc db write to misaligned modifiable 
+ 
+ --------------------------------------------------------
+ G6-Gpon link (bind template) G6: 41.98    (2potgr303)  (voice h248 service)
+  the same as ISAM FX(46.210) -G6( card FANT-F)
+  Gpon ( voice Ip (object) -> pot port need voice Ip)
+ -make link
+ -make link
+ -CRV and ID ( see on G6 -> compare and determine)
+ -unlock suspend first
+ -get configured TP
+ -db clean
+ -audit
+ -import
+ -reapply
+ 
+ ------------------------------------------------------------
+ NBCo: Isam 7302 (Isam Ihub) (5.1 or 5.3) (41.52 or 41.100)
+ FTTN(7320)  ( turn off all setting in apc)
+ -NGLTA(this kind of card has pon port) -> pon port-> apply NTD -> (subcribe local id : just 6 number) ( 7302 use NTLTA)
+  +ONT card 1(ethenet) 
+  + 2(pot)
+  + 14 (veip)
+-card 1 -> apply UNID -> TC4 up down #0 -> if error , adding more profile ( error of lack profile) ( tail drop of gpon)
+  .On UNI-> apply AVCD ( creat Vlan first) -> modify : access loop identification and priority tagged ( interface mode) -> to prority put value to vlan ( error of not filling)
+    ( find profile -> see mapping on APC web) (error of enum......
+  . On vlan asscociation -> igmp->make Cvlan (muticast) -> muticast control :ip4 -> fill cvlan in tp ( error of not filling cvlan in tp)
+-card 2: ethernet ONT card 2 -> apply UNIV -> AVCID :1 and VEIP:1
+-Card 14:AVCV-> creat CVLAN ( residential bridge) and modify Q0s #defaut ( error of banwith QoS=default ....)  
+
+-------------------------------
+VZ voice sip service: 2sip_fttn
+VZ voice h248       : 2POTS_GR303c
+ATT Data&Service    : GMDU
+ATT Voice 248       : GMDU_POT and GMDU_POT_08  
+GMDU_POT_08: nho khac line ,cpe. Note ve group TR08    
+------------------------------------
+
+KPN
+ISAM FTTN R5.3 -> 7330
+on card NELT-B -> ethenet
+
+GEA -> Qos-> Bridge -> missiung port -> out apply window -> fill 0.0 -> Mac 6
+under LAG Bridge -> apply Vlan_CTP template -> port CVlan id = CVlan created ( creat 2 clan , ex: c5,c6)) -> apply 2 vlan_ctp
+
+Vlan association1 --> aply ppp_client--> error :could not find ppp cc engine with svlan,clan....
+ -way 1: ppp cross connecttion engine-> map to 6 for vlan (enable Mac Adrress concentraion) ( map by hand)
+ -way 2: on ehtenet port -> apply ppp engine ( map automation)
+vlan association2-> apply IGMP  
+
+
+Bind template
+enable spfenoshow 
+Create: 
+ SNMP profile: G6 -> public/private
+Create Line profile: 
+Name : H248
+DS1: ALaw
+profile: RTP
+Signal: RTP
+Payload: 8
+DTMF: Disable
+
+
+Hi c.Thi, 
+
+Qua thời gian làm việc tại TMA với vị trí QA, một công việc thú vị và có nhiều cơ hội để phát triển, nhất là trong những dự án lớn và môi trường làm việc chuyên nghiệp như AxS. Em đã học hỏi được rất nhiều điều, không chỉ kiến thức về kĩ thuật mà còn nhiều kĩ năng khác từ công việc và từ những anh chị trong team. Bản thân em cũng đã cố gắng thích nghi và bắt kịp với nhịp với tiến độ của công việc nhưng thực sự em cảm thấy mình vẫn không thực sự hợp với nghề này chị ạ. Em cảm ơn mọi người thời gian qua đã giúp đỡ và chỉ bảo em rất nhiều. Qua Run 1 này , chị có thể cho em xin nghỉ được k ạ. 
+
+Thanks,
+Tuan Anh 
+
+
+
+Dear HR, 
+
+Trước tiên, tôi muốn gửi lời cảm ơn đến chị Thi, khi đã chấp nhận tôi là thành viên của dự án, cũng như là một thành viên của đại gia đình TMA.
+Tôi tên là Trần Tuấn Anh, Badge ID: 164723.
+Hiện tại đang làm việc tại Lab 3, dự án AxS QA - DC9 - DG4. Với vị trí QA Engineer, một công việc thú vị và có nhiều cơ hội để phát triển, nhất là trong những dự án lớn và môi trường làm việc chuyên nghiệp như TMA. Bản thân cũng đã học được rất nhiều điều, không chỉ kiến thức về kĩ thuật mà còn nhiều kĩ năng khác từ công việc và anh chị trong team. Tuy vậy tính chất công việc vẫn không thực sự phù hợp với mong muốn của bản thân, nên tôi viết đơn này để thông báo xin nghỉ việc. Như đã bàn bạc và được sự cho phép của Project Manager, chị Trần Thị Mỹ Thi, tôi sẽ làm việc cùng với team tới hết ngày 17/10/2016, nhằm giải quyết một số vấn đề liên quan đến dự án và chuyển giao công việc cho các thành viên khác. Mong HR tạo điều kiện, giúp đỡ tôi hoàn thành các thủ tục cần thiết, theo đúng quy định của hợp đồng, cũng như hổ trợ giải quyết những vấn đề phát sinh để tôi có thể chính thức nghỉ vào ngày 17/10/2016. Xin chân thành cảm ơn. 
+
+Thân,
+Tuấn Anh 
+
+
+“Em/Tôi viết đơn này để thông báo xin nghỉ việc. Ngày cuối cùng làm việc của em/tôi tại Quý công ty sẽ là…” .
+Em/Tôi đã học hỏi được rất nhiều kinh nghiệm trong công việc biên tập viên tại Quý công ty. Chắc rằng, những kỹ năng bổ ích này sẽ theo em/tôi trong sự nghiệp của mình”.
+
+
+Thời gian gắn bó cùng Quý công ty, em/tôi đã cố gắng hết sức mình để đảm bảo công việc luôn được hoàn thành trôi chảy. Em/Tôi mong anh/chị chấp nhận lá đơn xin thôi việc này. Em/Tôi đã may mắn trở thành một phần của Quý công ty ta. Chúc cho Quý công ty luôn phát triển mạnh mẽ”. 
+
+
+
+Bản thân em cũng đã cố gắng thích nghi và bắt kịp với nhịp với tiến độ của công việc nhưng thực sự em cảm thấy mình vẫn không thực sự hợp với nghề này chị ạ. Em cảm ơn mọi người thời gian qua đã giúp đỡ và chỉ bảo em rất nhiều. Qua Run 1 này , chị có thể cho em xin nghỉ được k ạ. 
+
+
+
+
+
+
+
+
+
+
+Raise bug =))) 
+
+Initial state:
+
+2.1. Bring up AMS cluster A-A-D-D server with Enable setting. 
+2.2. A GPON 4.10 NE is created and provisioned
+2.3 Create a G7342 MDU Ethernet Port/G7342 Bridge Port/G7342 HSI Service template stack and a G7342 MDU POTS Port  template. 
+
+Sequence: 
+
+3.1. On GPON NE, create a ONT/ONT Card (planned cardType = Ethernet POTS Combo) with a ethernet port and a pots port. 
+3.2. Apply MDU POTS Port service on pots port above. Apply some shared HSI serivces on Ethernet Port above.  -> OK 
+3.3. Execute NBI clean request message with address extension, that is provided objectType = EthernetPort. Verify that Ethernet Port service is cleaned completely, POTS Port services is not effected. -> NOK 
+Result: 
+- POTS services is not effected -> OK 
+- Ethernet services is only cleaned on NE -> NOK 
+It make Ethernet service is Miss in NE 
+
+
+
+
+
+
+
+
+http://sinhvienit.net/forum/hcm-tuyen-dung-android-developer.458457.html
+
+
+https://docs.google.com/forms/d/e/1FAIpQLSdrkUXly3EJ9-lnZdeM8c7T9KrNU4QS0qtYOoZ7pTBKurvaEg/viewform?c=0&w=1
+
+
+
+
+
+Short description about your mobile development skill (iOS or Android): 
+
+In the moment, I am learning Java core and very interesting with Mobile development, starting as zero point. 
+But I think with my ability and determination, that is not a big problem. 
+
+
+Why should we offer this position to you instead of the people outside? *
+
+Everyone person have their own strengths, for me:
+I realized become the developer is not only my passion also trully goal, career path for me from now and in the future.
+develope my technical and soft s more things 
+responsible person for 
+
+
+
+excited
+
+I have excellent references and would be delighted to discuss any possible vacancy with you at your convenience.
+In case you do not have any suitable openings at the moment, I would be grateful if you would keep my CV on file for any future possibilities.
+I would like to express my interest in a position as editorial assistant for your publishing company. As a recent graduate with writing, editing, and administrative experience, I believe I am a strong candidate for a position at the 123 Publishing Company.
+
+
+
+
+Although I am a recent college graduate, my maturity, practical experience, and eagerness to enter the publishing business will make me an excellent editorial assistant. I would love to begin my career with your company, and am confident that I would be a beneficial addition to the 123 Publishing Company.
+
+I have enclosed my resume, and will call within the next week to see if we might arrange a time to speak together. Thank you so much for your time and consideration.
+
+
+
+
+
+
+
+Monitoring snapshot
+/var/opt/ams/local/ams-9.6.00-331412/jboss/tmpdir/apc/8080/apc-northbound/-1919391697
+
+
+* BAC Type : Buffer Acceptance Algorithm, Queue profile
+
+
+
+
+-------
+Indian name: 
+
+I see that many of us still sound the middle “h” in Indian name (e.g. Sathish –  “Sa-thís”, Rahul – “Ra-hun”, Vidhya – “Vít-ha”). Actually, we need to ignore such “h”, so the names in my example are sounded like “Sa-tís”, “Ra-un”, “Vi-đi-a”.
+
+
+Hello,
+
+I just found this channel: https://www.youtube.com/user/numberphile
+
+It has tons of interesting videos such as:
+•	Perfect Shapes in Higher Dimensions
+•	5040 and other Anti-Prime Numbers
+•	Glitch Primes and Cyclops Numbers
+•	and more...
+
+
+
+Vừa qua HSBC có tới TMA để mời làm thẻ. Họ nói nhiều về lợi ích nhưng không hề giải thích rõ cách tính lãi suất khi trả chậm. Nhiều người không để ý nên bị tính lãi cắt cổ mà không biết.
+
+Quy định như sau: Nếu mình xài tháng nào trả hết tháng đó thì không có vấn đề gì, không bị tính lãi. Nhưng nếu mình nợ lại dù chỉ 1 đồng thì sẽ bị xếp vô nhóm “con nợ” và số tiền nợ cộng với số tiền của tất cả giao dịch phát sinh sau đó đều bị tính lãi (khoảng 2.5 %/tháng tùy hạng thẻ, là khoảng 30 %/năm, một con số rất cao nếu so với lãi cho vay bình thường hiện nay là khoảng 10%).
+
+Lưu ý, khi mình là “con nợ” thì tất cả giao dịch phát sinh đều bị tính lãi ngay lập tức mà không phải chờ 30 ngày hay 45 ngày gì đó như quảng cáo. Chỗ này họ không (dám) nói rõ, vì nếu nói ra thì chắc rất ít người dám dùng thẻ. Đó là chưa kể một số ngân hàng có cách chốt sổ bí hiểm làm cho khách hàng rất khó trả hết nợ trong tháng nếu xài thẻ hàng ngày.
+
+Thẻ tín dụng vẫn có ích nhưng chỉ nên dùng khi thực sự cần thiết và số tiền không lớn. Tuy nhiên nếu xài ít thì phí thường niên sẽ khá lớn so với số tiền mình xài qua thẻ, như vậy thì không đáng để xài. Tóm lại là phải hiểu thật rõ quy định trước khi tham gia.
+
+
+
+
+
+1 474 394 562 907
+     /* 
+                 * APC-22358 
+                 * - When creating new user, session password will be null => Should check password format 
+                 * - When modifying the existing user, the session password is not null:  
+                 *      + If the session password is not equal the input password => Password got changed and should be checked its format 
+                 *      + If the session password is equal the input password => Password is not changed, checking password format will be ignored   
+                 */ 
+                String sessionPassword = getSessionValue(parent, context); 
+                if (sessionPassword == null || !sessionPassword.equals(password)){ 
+                    if(!checkPassword(password)){ 
+                        result.addErrorMessage(this, new Message(UserMgntResources.USER_PASSWORD_CHECK_FAILED)); 
+                        return null; 
+
+
+
+
+
+NOTE: 
+(1) If return value is zero (0), command is successful.
+(2) If return value is nonzero, command is not successful or some sort of error executing command/shell script.
+
+
+
+SYSTEM VARIABLE						|	MEANING
+--------------------------------------------------------------------------
+BASH=/bin/bash						|	Our shell name
+BASH_VERSION=1.14.7(1)				|	Our shell version name
+COLUMNS=80							|	No. of columns for our screen
+HOME=/home/vivek					|	Our home directory
+LINES=25							|	No. of columns for our screen
+LOGNAME=students					|	students Our logging name
+OSTYPE=Linux						|	Our Os type
+PATH=/usr/bin:/sbin:/bin:/usr/sbin	|	Our path settings
+PS1=[\u@\h \W]\$					|	Our prompt settings
+PWD=/home/students/Common			|	Our current working directory
+SHELL=/bin/bash						|	Our shell name
+USERNAME=vivek						|	User name who is currently login to this PC
+
+
+USE ECHO COMMAND TO DISPLAY TEXT OR VALUE OF VARIABLE.
+
+echo [options] [string, variables...]
+Displays text or variables value on screen.
+Options
+-n Do not output the trailing new line.
+-e Enable interpretation of the following backslash escaped characters in the strings:
+\a alert (bell)
+\b backspace
+\c suppress trailing new line
+\n new line
+\r carriage return
+\t horizontal tab
+\\ backslash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+English: 
+
+ point "down the road" = in the future 
+"Down the road, I'd like to study art or music" 
+
+discrepancies : sự khác biệt 
+
+instantaneous : tuc thi`
+ 
+compare ... against ...
+
+Protect: bao ve
+Protests : bieu tnh 
+
+intricate : lon xon 
+recognizable : nhan biet
+accomplish: thanh tuu  
+accompany:  kem, hop suc
+to adopt : ap dung  
+exhaustive  = full, day du 
+
+They serve as a workable references and starting points for futher investigation. 
+furnished : trang bi 
+ingredients: thanh phan
+condiments: gia vi 
+metaphorically: an du 
+backed by: dc ho tro boi 
+accommodate: chua , consist of 
+comprehending : thau hieu 
+
+comprehending
+
+
+ manipulated
+

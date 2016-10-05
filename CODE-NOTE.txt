@@ -1,0 +1,1614 @@
+TIPS
+------------------------------
+check file different: 
+http://diffchecker.com/ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+JAVA Note
+==============================
+Java OOP Note: 
+Advance topics: 
++ Abtract classes: 
++ @Override
++ Interface:
+	+ Often use for design, like contract. 
+	+ It's like a pattern. 
+Create :  use interface key.
+Using : implements key.
+
+
+
+
+
+OOPs in Java is a paradigm that provides many concepts such as inheritance, data binding, polymorphism
++ OOPs (Object-orented Programming): Object means a real world entity such as table, animal...
+OOP is a method or paradigm to design a software using classes and objects. It simplifies the software
+development and maintance by providing some concepts: 
++ objects: state and behavior 
++ class : collection of objects
++ inheritance: the child objects acquires all properties of parent objects
++ polymorphism: method overloading and method overriding. 
+	+ overloading: create more methods same name but set different about number of arguments or type of arguments.
+	+ overriding :
+	
+
+
+
+
++ abstraction:  abstract class and interface, hidding the detail and showing the functionally.
++ encapsulation: binding (wrap) data and code together into a unit. 
+
+
+---------------
+Constructor: 
+- Some roles
+ + name must same its class
+ + no explicit return
+ + no constructor was created, compiler will be created a default constructor.
+- Type of Constructor: 
+		+ Default constructor (no-arg) :<class_name>(){}   
+		+ Parameterized constructor 
+- static block. be executed after main() : static {System.out.print("print will be executed first");}
+
+
+
+Java core -> Java Form -> java web -> Jsp servlet -> Struts, Hibanate. 
+
+
+
+
+
+
++ CLASSPATH
++ Packages
++ JavaDoc detail 
++ Visiblity other than public or private 
+
+"these classes should look like that, and they have that in common, so fill in the blanks!".
+
+Consider using abstract classes if :
+    You want to share code among several closely related classes.
+    You expect that classes that extend your abstract class have many common methods or fields, or require access modifiers other than public (such as protected and private).
+    You want to declare non-static or non-final fields.
+
+Consider using interfaces if:
+
+    You expect that unrelated classes would implement your interface. For example,many unrelated objects can implement Serializable interface.
+    You want to specify the behaviour of a particular data type, but not concerned about who implements its behaviour.
+    You want to take advantage of multiple inheritance of type.
+
+	Interface2{
+	method4;
+	method3;
+	}
+	
+	Interface{
+	method1()
+	method5()
+	}
+	Abstract class implements Interface, Interface2{
+	method1(){
+	xxx
+	method2();
+	}	
+	abstract method2 ;
+	subclass entends Abstract{
+	defined the method2;
+		}
+	
+	Interface xxx = new subclass
+	xxx.can use method1  by xxx.method1;
+	
+	
+	
+The 13 core technologies that make up Java EE are:
+
+   1  JDBC
+   2  JNDI
+   3  EJBs
+   4  RMI
+   5  JSP
+   6  Java servlets
+   7  XML
+   8  JMS
+   9  Java IDL
+   10 JTS
+   11 JTA
+   12 JavaMail
+   13 JAF
+   
+   
+   
+      Learn OOP. Learn Unit testing. Learn GoF design patterns.
+    Learn HTTP. Learn session management in HTTP.
+    Learn servlets. Learn JSP. Learn how to manage sessions in Java with JSession.
+    Learn how to make the presentation in JSP and how to handle the user actions with servlets, then go back to another JSP to show the results.
+    Learn the true nature of J2EE: Presentation using JSP. Using servlets just to invoke EJBs.
+    EJBs: What is it so good about them? EJBs don't seem necessary, but they provide several things:
+    Session EJBs. Stateless and stateful. Only the stateless session beans worked right. Provide transactions to the EJBs.
+    Entity EJBs, providing persistence and failed miserably, eventually were replaced by JPA.
+    MDBs to read JMS queues. JMS queues can be point to point or use topics to  manage to tell everyone reading that queue.
+    Now JSP has been replaced by JSF.
+	
+	
+	
+	--------------
+	
+	synchronized : For Multi-Threads programming.
+	
+
+	APC_9.6_APCREQ-791-Handle-Port-Address-Duplication 
+	
+	
+VBA Note
+========================
++ Trim ("Hello   word    ") = "Hello word" 
+
++ Dim availableName As availableType
+"Dim collumIndex As Integer" 
++ <> mean not equals:  if x <> 5 then .... 
++ Work Sheet
+Set oWorkSheet = ThisWorkbook.Worksheets(1)
+
+Range() and Cells : http://www.excel-easy.com/vba/range-object.html
+
+	
+' Example 1. Find the text "st" within the string "Test string", starting from position 1.
+Dim pos As Integer
+pos = InStr( "Test string", "st" )
+' pos now has the value 3.	
+	
+	
+	
+	
+	
+	
+Shell script: 
+========================
+
+* basename and dirname: 
++ basename(/the/path/foo.txt) = foo
+	basename(bar.txt) = bar
+	basename(/) = ""
+	basename(*) = *	
+ Often these machinations are necessary perform on lists of filenames and paths. There are many specialized programs that are conventionally included with Unix to perform these sorts of utility functions: tr, cut, paste, and join. Given a filename like /home/myplace/a.data.directory/a.filename.txt which we'll call $f you could use commands like:
+
+    	dirname $f 
+    	basename $f 
+    	basename $f .txt
+    	
+
+... to see output like:
+
+
+    	/home/myplace/a.data.directory
+    	a.filename.txt
+    	a.filename 
+  >> dev/null redirects standard output to dev/null, which discard it. 
+ ">>" mean append 
+ ">" mean truncate and write
+ 2>&1 : mean (2) standard error to (1) standard output
+
+	
+	
+	
+	
+	
+> dev/null 2>&1 mean standard output ->  dev/null and standard error will be sent to standard output.
+2 > dev/null 1>&2 mean standard error -> dev/null and standard output will be sent to standard error. 
+	
+	
+* Send the data to Firebase server
+1. Create a connection to Firebase server : mFirebaseRef = new Firebase("https://popping-heat-8239.firebaseio.com/"); 
+2. get Text edit -> hashmap value Map<String,Object> values = new HashMap<>();
+3. put value to Map :   values.put("name", "Android User");
+						values.put("text", text);
+4. Send Map value to Firebase server: mFirebaseRef.push().setValue(values); 
+---- 
+
+
+Android: connect to the Network 
+https://developer.android.com/training/basics/network-ops/connecting.html#http-client
+
+
+1. Add permission to connect INTERNET for users. 
+
+Note that to perform the network operations described in this lesson, your application manifest must include the following permissions:	
+
+"<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> "
+ 
+2. Choose an HTTP client: use : HttpURLConnection 
+3. Check the Network connection. 
+
+ 3.1. Use ConnectivityManager class to get connectivity information : using  Context.getSystemService(Context.CONNECTIVITY_SERVICE).
+ 3.2. Use NetworkInfo class, and getActiveNetworkInfo() function to get an instance that represents the current network connection.  
+ 3.3. Check the connection.  
+ 
+  Example: ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+		   NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+		   If (networkInfo != null && networkInfo.isConnected() ){
+			   
+		   }).start();
+		     
+		   
+		   
+		   }
+		   else {
+		   
+		   }
+
+
+ 
+ 
+ 
+
+
+
+
+
+
+Network operations can involve unpredictable delays. To prevent this from causing a poor user experience, always perform network operations on a separate thread from the UI. The AsyncTask class provides one of the simplest ways to fire off a new task from the UI thread. For more discussion of this topic, see the blog post Multithreading For Performance.
+
+In the following snippet, the myClickHandler() method invokes new DownloadWebpageTask().execute(stringUrl). The DownloadWebpageTask class is a subclass of AsyncTask. DownloadWebpageTask implements the following AsyncTask methods:
+
+    doInBackground() executes the method downloadUrl(). It passes the web page URL as a parameter. The method downloadUrl() fetches and processes the web page content. When it finishes, it passes back a result string.
+    onPostExecute() takes the returned string and displays it in the UI.
+
+public class HttpExampleActivity extends Activity {
+    private static final String DEBUG_TAG = "HttpExample";
+    private EditText urlText;
+    private TextView textView;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+        urlText = (EditText) findViewById(R.id.myUrl);
+        textView = (TextView) findViewById(R.id.myText);
+    }
+
+    // When user clicks button, calls AsyncTask.
+    // Before attempting to fetch the URL, makes sure that there is a network connection.
+    public void myClickHandler(View view) {
+        // Gets the URL from the UI's text field.
+        String stringUrl = urlText.getText().toString();
+        ConnectivityManager connMgr = (ConnectivityManager)
+            getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new DownloadWebpageTask().execute(stringUrl);
+        } else {
+            textView.setText("No network connection available.");
+        }
+    }
+
+     // Uses AsyncTask to create a task away from the main UI thread. This task takes a
+     // URL string and uses it to create an HttpUrlConnection. Once the connection
+     // has been established, the AsyncTask downloads the contents of the webpage as
+     // an InputStream. Finally, the InputStream is converted into a string, which is
+     // displayed in the UI by the AsyncTask's onPostExecute method.
+   
+   private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                return downloadUrl(urls[0]);
+            } catch (IOException e) {
+                return "Unable to retrieve web page. URL may be invalid.";
+            }
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            textView.setText(result);
+       }
+    }
+    ...
+}
+
+The sequence of events in this snippet is as follows:
+
+    When users click the button that invokes myClickHandler(), the app passes the specified URL to the AsyncTask subclass DownloadWebpageTask.
+    The AsyncTask method doInBackground() calls the downloadUrl() method.
+    The downloadUrl() method takes a URL string as a parameter and uses it to create a URL object.
+    The URL object is used to establish an HttpURLConnection.
+    Once the connection has been established, the HttpURLConnection object fetches the web page content as an InputStream.
+    The InputStream is passed to the readIt() method, which converts the stream to a string.
+    Finally, the AsyncTask's onPostExecute() method displays the string in the main activity's UI.
+
+Connect and Download Data
+
+In your thread that performs your network transactions, you can use HttpURLConnection to perform a GET and download your data. After you call connect(), you can get an InputStream of the data by calling getInputStream().
+
+In the following snippet, the doInBackground() method calls the method downloadUrl(). The downloadUrl() method takes the given URL and uses it to connect to the network via HttpURLConnection. Once a connection has been established, the app uses the method getInputStream() to retrieve the data as an InputStream.
+
+// Given a URL, establishes an HttpUrlConnection and retrieves
+// the web page content as a InputStream, which it returns as
+// a string.
+private String downloadUrl(String myurl) throws IOException {
+    InputStream is = null;
+    // Only display the first 500 characters of the retrieved
+    // web page content.
+    int len = 500;
+
+    try {
+        URL url = new URL(myurl);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setReadTimeout(10000 /* milliseconds */);
+        conn.setConnectTimeout(15000 /* milliseconds */);
+        conn.setRequestMethod("GET");
+        conn.setDoInput(true);
+        // Starts the query
+        conn.connect();
+        int response = conn.getResponseCode();
+        Log.d(DEBUG_TAG, "The response is: " + response);
+        is = conn.getInputStream();
+
+        // Convert the InputStream into a string
+        String contentAsString = readIt(is, len);
+        return contentAsString;
+
+    // Makes sure that the InputStream is closed after the app is
+    // finished using it.
+    } finally {
+        if (is != null) {
+            is.close();
+        }
+    }
+}
+
+Note that the method getResponseCode() returns the connection's status code. This is a useful way of getting additional information about the connection. A status code of 200 indicates success.
+Convert the InputStream to a String
+
+An InputStream is a readable source of bytes. Once you get an InputStream, it's common to decode or convert it into a target data type. For example, if you were downloading image data, you might decode and display it like this:
+
+InputStream is = null;
+...
+Bitmap bitmap = BitmapFactory.decodeStream(is);
+ImageView imageView = (ImageView) findViewById(R.id.image_view);
+imageView.setImageBitmap(bitmap);
+
+In the example shown above, the InputStream represents the text of a web page. This is how the example converts the InputStream to a string so that the activity can display it in the UI:
+
+// Reads an InputStream and converts it to a String.
+public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+    Reader reader = null;
+    reader = new InputStreamReader(stream, "UTF-8");
+    char[] buffer = new char[len];
+    reader.read(buffer);
+    return new String(buffer);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANDROID DESIGN PATTERNS: 
+
+ 
+ *  CREATIONAL PATTERNS: HOW YOU CREATE OBJECTS.
+ object creation simple and easy repeatable, if you want to a complex particular object, how can you get one? 
+
+    - Builder: proceed step-by-step and lets you specify only the part of your object matter to you. 
+    - Dependency Injection
+    - Singleton : create a only interface for global instance. 
+	
+	Example:
+	
+	public class SingleTone(){
+		private SingleTone singTone = null;
+		private ExampleSingleton() {}
+		public static SingleTone getInstance(){
+		if (singTone = null) {
+		singTone = new SingleTone();
+			}
+		return singTone;
+		}
+	}
+	
+	
+if want to instace a class: SingleTone singTone = SingleTone.getInstance();
+			
+			
+  *  STRUCTURAL PATTERNS: HOW YOU COMPOSE OBJECTS. 
+  Open a class, how will I remember what's it doing and how to put there together? 
+    - Adapter
+    - Facade
+
+  *  BEHAVIORAL PATTERNS: HOW YOU COORDINATE OBJECT INTERACTIONS.
+  “So… how do I tell which class is responsible for what?
+    - Command
+    - Observer
+    - Model View Controller
+    - Model View ViewModel
+
+	
+	
+	
+	
+------
+NOTE Thread/Process Android 
+
+Issue: When a app run, the system call a process and a default Thread - Main Thread or UI Thread. 
+-> UI thread executing more event, if a event is not instantaneous -> block the others event -> NOK 
+
+Rules:
+1. Can not blocked Thread UI 
+2. Can not call Android UI toolkit from other thread
+
+
+
+Solution: create a new thread to execute your event by using:  new Thread(new Runnable( public void yourFunction() )).start();
+public void onClick(View v) {
+-->>>    new Thread(new Runnable() {
+        public void run() {
+            Bitmap b = loadImageFromNetwork("http://example.com/image.png");
+            mImageView.setImageBitmap(b);
+        }
+    }).start();
+}
+-> call Android UI toolkit from another Thread (using new Thread to edit ImageView )-> impact to rules 2: 
+Solution: Can call UI Thread from another Thread. 
+Below is list options way to call UI Thread from another Thread: 
+   - Activity.runOnUiThread(Runnable)
+   - View.post(Runnable)
+   - View.postDelayed(Runnable, long)
+
+   
+Example View.post(Runnable): 
+public void onClick(View view){
+	new Thread(new Runnable(){
+		public void run() {
+			final Bitmap bitmap = loadImageFromNetwork("http://example.com/image.png");
+			mImageView.post(new Runnable(){
+			public void run() {
+			mImageView.setImageBitmap(bitmap);
+					}
+				}
+			)	
+		}
+	}
+).start();
+
+}
+
+
+However, as the complexy of the operation grow, this kind of code can get complicaed and difficult to maintain.
+
+Solution : To handle more complex interactions with a worker thread, you might consider using a Handler in your worker thread, to process messages delivered from the UI thread. "AsyncTask class " 
+""The AsyncTask allow you to perform asynchronous work on your user interface. It perform the blocking operations on worker Thread and then publishs result on UI Thread, 
+without any handle the thread. ""
+To using the AsyncTask: call 
+implement the doInBackground() callback method, which runs in a pool of background threads.
+To use it, you must subclass AsyncTask and implement the doInBackground() callback method, which runs in a pool of background threads. To update your UI, you should implement onPostExecute(), which delivers the result from doInBackground() and runs in the UI thread, so you can safely update your UI. You can then run the task by calling execute() from the UI thread.
+Step to using the AsyncTask Class: 
+1. Create a Class instance of AsyncTask Class: 
+	on that class, declare two function : 
+		- doInBackground(): -> return value of blocking operations 
+		- onPostExecute(): -> publishes the result to the UI. 
+
+		
+
+public void onClick(View v) {
+    new DownloadImageTask().execute("http://example.com/image.png");
+}
+
+private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    /** The system calls this to perform work in a worker thread and
+      * delivers it the parameters given to AsyncTask.execute() */
+	  
+	  
+    protected Bitmap doInBackground(String... urls) {
+        return loadImageFromNetwork(urls[0]);
+    }
+
+    /** The system calls this to perform work in the UI thread and delivers
+      * the result from doInBackground() */
+	  
+	  
+    protected void onPostExecute(Bitmap result) {
+        mImageView.setImageBitmap(result);
+    }
+}
+
+   
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	
+	
+	
+	
+	Processes and Threads
+In this document
+
+    Processes
+        Process lifecycle
+    Threads
+        Worker threads
+        Thread-safe methods
+    Interprocess Communication
+
+When AN APPLICATION COMPONENT STARTS and the application does not have any other components running, the Android system starts A NEW LINUX PROCESS for the application WITH A SINGLE THREAD of execution. By default, all COMPONENTS of thE SAME APPLICATIOn run in the SAME PROCESS AND THREAD (CALLED THE "MAIN" THREAD). If an application component starts and there already exists a process for that application (because another component from the application exists), then the component is started within that process and uses the same thread of execution. However, you can arrange for different components in your application to run iN SEPARATE PROCESSES, and you CAN CREATE ADDITIONAL THREADS FOR ANY PROCESS.
+
+This document discusses how processes and threads work in an android application.
+
+PROCESSES
+
+By default, all components of the same application run in the same process and most applications SHOULD NOT CHANGE THIS. However, if you find that you need to control which process a certain component belongs to, you can do so in the manifest file.
+
+The manifest entry for each type of component element—<activity>, <service>, <receiver>, and <provider>—supports an android:process attribute that can specify a process in which that component should run. You can set this attribute so that EACH COMPONENT RUNS IN ITS OWN PROCESS or so that sOME COMPONENTS SHARE A PROCESS WHILE OTHERS DO NOT. You can also set android:process so that COMPONENTS OF DIFFERENT APPLICATIONS RUN IN THE SAME PROCESS—PROVIDED that the applications share the same Linux user ID and are signed with the same certificates.
+
+The <application> element also supports an android:process attribute, to set a default value that applies to all components.
+
+ANDROID MIGHT DECIDE TO SHUT DOWN A PROCESS AT SOME POINT, when MEMORY IS LOW and REQUIRED BY OTHER PROCESSES that are more immediately serving the user. Application components running in the process that's killed are consequently destroyed. A process is started again for those components when there's again work for them to do.
+
+When deciding which processes to kill, the Android system weighs their relative importance to the user. For example, it more readily shuts down a process hosting activities that are no longer visible on screen, compared to a process hosting visible activities. The decision whether to terminate a process, therefore, DEPENDS ON THE STATE OF THE COMPONENTS RUNNING IN THAT PROCESS. The rules used to decide which processes to terminate is discussed below.
+
+PROCESS LIFECYCLE
+
+The Android system tries to maintain an application process for as long as possible, but eventually needs to remove old processes to reclaim memory for new or more important processes. To DETERMINE WHICH PROCESSES TO KEEP AND WHICH TO KILL, the system places each process into an "IMPORTANCE HIERARCHY" based on the COMPONENTS RUNNING in the process and the STATE of those components. Processes with the lowest importance are eliminated first, then those with the next lowest importance, and so on, as necessary to recover system resources.
+
+There ARE FIVE LEVELS IN THE IMPORTANCE HIERARCHY. The following list presents the different types of processes in order of importance (the first process is most important and is killed last):
+
+    FOREGROUND PROCESS
+
+    A process that is required for what the user is currently doing. A process is considered to be in the foreground if any of the following conditions are true:
+        It hosts an ACTIVITY THAT THE USER IS INTERACTING WITH (the Activity's onResume() method has been called).
+        It hosts a SERVICE THAT'S BOUND TO THE ACTIVITY THAT THE USER IS INTERACTING WITH.
+        It hosts a SERVICE THAT'S RUNNING "IN THE FOREGROUND"—the service has called startForeground().
+        It hosts a Service that's executing one of its lifecycle callbacks (onCreate(), onStart(), or onDestroy()).
+        It hosts a BROADCASTRECEIVER That's executing its onReceive() method.
+
+    Generally, only a few foreground processes exist at any given time. They are killed only as a last resort—if memory is so low that they cannot all continue to run. Generally, at that point, the device has reached a memory paging state, so killing some foreground processes is required to keep the user interface responsive.
+	
+	
+    VISIBLE PROCESS
+
+    A process that doesn't have any foreground components, but STILL CAN AFFECT WHAT THE USER SEES ON SCREEN. A process is considered to be visible if either of the following conditions are true:
+        It hosts an Activity that is not in the foreground, but is still visible to the user (its onPause() method has been called). This might occur, for example, if the foreground activity started a dialog, which allows the previous activity to be seen behind it.
+        It hosts a Service that's bound to a visible (or foreground) activity.
+
+    A visible process is considered extremely important and will not be killed unless doing so is required to keep all foreground processes running.
+	
+    SERVICE PROCESS
+
+    A process that is running a service that has been started with the startService() method and does not fall into either of the two higher categories. Although service processes are not directly tied to anything the user sees, they are generally doing things that the user cares about (such as playing music in the background or downloading data on the network), so the system keeps them running unless there's not enough memory to retain them along with all foreground and visible processes.
+	
+    BACKGROUND PROCESS
+
+    A process holding an activity that's not currently visible to the user (the activity's onStop() method has been called). These processes have no direct impact on the user experience, and the system can kill them at any time to reclaim memory for a foreground, visible, or service process. Usually there are many background processes running, so they are kept in an LRU (least recently used) list to ensure that the process with the activity that was most recently seen by the user is the last to be killed. If an activity implements its lifecycle methods correctly, and saves its current state, killing its process will not have a visible effect on the user experience, because when the user navigates back to the activity, the activity restores all of its visible state. See the Activities document for information about saving and restoring state.
+	
+    EMPTY PROCESS
+
+    A process that doesn't hold any active application components. The only reason to keep this kind of process alive is for caching purposes, to improve startup time the next time a component needs to run in it. The system often kills these processes in order to balance overall system resources between process caches and the underlying kernel caches.
+
+Android ranks a process at the highest level it can, based upon the importance of the components currently active in the process. For example, if a process hosts a service and a visible activity, the process is ranked as a visible process, not a service process.
+
+In addition, a process's ranking might be increased because other processes are dependent on it—a process that is serving another process can never be ranked lower than the process it is serving. For example, if a content provider in process A is serving a client in process B, or if a service in process A is bound to a component in process B, process A is always considered at least as important as process B.
+
+Because a process running a service is ranked higher than a process with background activities, an activity that initiates a long-running operation might do well to start a service for that operation, rather than simply create a worker thread—particularly if the operation will likely outlast the activity. For example, an activity that's uploading a picture to a web site should start a service to perform the upload so that the upload can continue in the background even if the user leaves the activity. Using a service guarantees that the operation will have at least "service process" priority, regardless of what happens to the activity. This is the same reason that broadcast receivers should employ services rather than simply put time-consuming operations in a thread.
+Threads
+
+When an APPLICATION IS LAUNCHED, the system creates a thread of execution for the application, called "main." This thread is very important because it is in charge of dispatching events to the appropriate user interface widgets, including drawing events. It is also the thread in which your application interacts with components from the Android UI toolkit (components from the android.widget and android.view packages). As such, the main thread is also sometimes called the UI thread.
+
+The system DOES NOT CREATE A SEPARATE THREAD for each instance of a component. All components that run in the same process are instantiated in the UI thread, and system calls to each component are dispatched from that thread. Consequently, methods that respond to system callbacks (such as onKeyDown() to report user actions or a lifecycle callback method) always run in the UI thread of the process.
+
+For instance, when the user touches a button on the screen, your app's UI thread dispatches the touch event to the widget, which in turn sets its pressed state and posts an invalidate request to the event queue. The UI thread dequeues the request and notifies the widget that it should redraw itself.
+
+When your app performs intensive work in response to user interaction, this single thread model can yield poor performance unless you implement your application properly. Specifically, if everything is happening in the UI thread, performing long operations such as network access or database queries will block the whole UI. When the thread is blocked, no events can be dispatched, including drawing events. From the user's perspective, the application appears to hang. Even worse, if the UI thread is blocked for more than a few seconds (about 5 seconds currently) the user is presented with the infamous "application not responding" (ANR) dialog. The user might then decide to quit your application and uninstall it if they are unhappy.
+
+Additionally, the Andoid UI toolkit is not thread-safe. So, you must not manipulate your UI from a worker thread—you must do all manipulation to your user interface from the UI thread. Thus, there are simply two rules to Android's single thread model:
+
+   **** DO NOT BLOCK THE UI THREAD
+   **** DO NOT ACCESS THE ANDROID UI TOOLKIT FROM OUTSIDE THE UI THREAD 
+
+WORKER THREADS
+
+Because of the single thread model described above, it's vital to the responsiveness of your application's UI that you do not block the UI thread. If you have operations to perform that are not instantaneous, YOU SHOULD MAKE SURE TO DO THEM IN SEPARATE THREADS ("background" or "worker" threads).
+
+For example, below is some code for a click listener that downloads an image from a separate thread and displays it in an ImageView:
+
+public void onClick(View v) {
+    new Thread(
+	
+	
+	new Runnable() {
+        public void run() {
+            Bitmap b = loadImageFromNetwork("http://example.com/image.png");
+            mImageView.setImageBitmap(b);
+        }
+    }).start();
+}
+
+
+
+
+At first, this seems to work fine, because it creates a new thread to handle the network operation. However, it violates the second rule of the single-threaded model: do not access the Android UI toolkit from outside the UI thread—THIS SAMPLE MODIFIES THE ImageView FROM THE WORKER THREAD INSTEAD OF THE UI THREAD. This can result in undefined and unexpected behavior, which can be difficult and time-consuming to track down.
+
+To fix this problem, Android offers several ways TO ACCESS THE UI THREAD FROM OTHER THREADs. Here is a list of methods that can help:
+
+    Activity.runOnUiThread(Runnable)
+    View.post(Runnable)
+    View.postDelayed(Runnable, long)
+
+For example, you can fix the above code by using the View.post(Runnable) method:
+
+public void onClick(View v) {
+    new Thread(new Runnable() {
+        public void run() {
+            final Bitmap bitmap =
+                    loadImageFromNetwork("http://example.com/image.png");
+            mImageView.post(new Runnable() {
+                public void run() {
+                    mImageView.setImageBitmap(bitmap);
+                }
+            });
+        }
+    }).start();
+}
+
+Now this implementation is thread-safe: the network operation is done from a separate thread while the ImageView is manipulated from the UI thread.
+
+However, aS THE COMPLEXITY OF THE OPERATION GROWS, THIS KIND OF CODE CAN GET COMPLICATED AND DIFFICULT TO MAINTAIN. To handle more complex interactions with a worker thread, you might consider using a Handler in your worker thread, to process messages delivered from the UI thread. Perhaps the best solution, though, is to extend the AsyncTask class, which simplifies the execution of worker thread tasks that need to interact with the UI.
+Using AsyncTask
+
+AsyncTask allows you to perform asynchronous work on your user interface. It performs the blocking operations in a worker thread and then publishes the results on the UI thread, without requiring you to handle threads and/or handlers yourself.
+
+To use it, you must subclass AsyncTask and implement the doInBackground() callback method, which runs in a pool of background threads. To update your UI, you should implement onPostExecute(), which delivers the result from doInBackground() and runs in the UI thread, so you can safely update your UI. You can then run the task by calling execute() from the UI thread.
+
+For example, you can implement the previous example using AsyncTask this way:
+
+public void onClick(View v) {
+    new DownloadImageTask().execute("http://example.com/image.png");
+}
+
+private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    /** The system calls this to perform work in a worker thread and
+      * delivers it the parameters given to AsyncTask.execute() */
+    protected Bitmap doInBackground(String... urls) {
+        return loadImageFromNetwork(urls[0]);
+    }
+
+    /** The system calls this to perform work in the UI thread and delivers
+      * the result from doInBackground() */
+    protected void onPostExecute(Bitmap result) {
+        mImageView.setImageBitmap(result);
+    }
+}
+
+Now the UI is safe and the code is simpler, because it separates the work into the part that should be done on a worker thread and the part that should be done on the UI thread.
+
+You should read the AsyncTask reference for a full understanding on how to use this class, but here is a quick overview of how it works:
+
+ - You can specify the type of the parameters, the progress values, and the final value of the task, using generics
+ - The method doInBackground() executes automatically on a worker thread
+ - onPreExecute(), onPostExecute(), and onProgressUpdate() are all invoked on the UI thread
+ - The value returned by doInBackground() is sent to onPostExecute()
+ - You can call publishProgress() at anytime in doInBackground() to execute onProgressUpdate() on the UI thread
+ - You can cancel the task at any time, from any thread
+
+Caution: Another problem you might encounter when using a worker thread is unexpected restarts in your activity due to a runtime configuration change(such as when the user changes the screen orientation), which may destroy your worker thread. To see how you can persist your task during one of these restarts and how to properly cancel the task when the activity is destroyed, see the source code for the Shelves sample application.
+Thread-safe methods
+
+In some situations, the methods you implement might be called from more than one thread, and therefore must be written to be thread-safe.
+
+This is primarily true for methods that can be called remotely—such as methods in a bound service. When a call on a method implemented in an IBinder originates in the same process in which the IBinder is running, the method is executed in the caller's thread. However, when the call originates in another process, the method is executed in a thread chosen from a pool of threads that the system maintains in the same process as the IBinder (it's not executed in the UI thread of the process). For example, whereas a service's onBind() method would be called from the UI thread of the service's process, methods implemented in the object that onBind() returns (for example, a subclass that implements RPC methods) would be called from threads in the pool. Because a service can have more than one client, more than one pool thread can engage the same IBinder method at the same time. IBinder methods must, therefore, be implemented to be thread-safe.
+
+Similarly, a content provider can receive data requests that originate in other processes. Although the ContentResolver and ContentProvider classes hide the details of how the interprocess communication is managed, ContentProvider methods that respond to those requests—the methods query(), insert(), delete(), update(), and getType()—are called from a pool of threads in the content provider's process, not the UI thread for the process. Because these methods might be called from any number of threads at the same time, they too must be implemented to be thread-safe.
+
+Interprocess Communication
+
+Android offers a mechanism for interprocess communication (IPC) using remote procedure calls (RPCs), in which a method is called by an activity or other application component, but executed remotely (in another process), with any result returned back to the caller. This entails decomposing a method call and its data to a level the operating system can understand, transmitting it from the local process and address space to the remote process and address space, then reassembling and reenacting the call there. Return values are then transmitted in the opposite direction. Android provides all the code to perform these IPC transactions, so you can focus on defining and implementing the RPC programming interface.
+
+To perform IPC, your application must bind to a service, using bindService(). For more information, see the Services developer guide.
+	
+	
+	
+
+	
+	
+1. ANDROID'S PREFERENCE API FOR SETTINGS. 
+
+
+
+Key classes
+
+    Preference
+    PreferenceActivity
+    PreferenceFragment
+
+See also
+
+    Settings design guide
+
+Applications often include settings that allow users to modify app features and behaviors. For example, some apps allow users to specify whether notifications are enabled or specify how often the application syncs data with the cloud.
+
+If you want to provide settings for your app, you should use Android's Preference APIs to build an interface that's consistent with the user experience in other Android apps (including the system settings). This document describes how to build your app settings using Preference APIs.
+
+Settings Design
+
+For information about how to design your settings, read the Settings design guide.
+
+Figure 1. Screenshots from the Android Messaging app's settings. Selecting an item defined by a Preference opens an interface to change the setting.
+Overview
+
+Instead of using View objects to build the user interface, settings are built using various subclasses of the Preference class that you declare in an XML file.
+
+A Preference object is the building block for a single setting. Each Preference appears as an item in a list and provides the appropriate UI for users to modify the setting. For example, a CheckBoxPreference creates a list item that shows a checkbox, and a ListPreference creates an item that opens a dialog with a list of choices.
+
+Each Preference you add has a corresponding "key-value" pair that the system uses to save the setting in a default SharedPreferences file for your app's settings. When the user changes a setting, the system updates the corresponding value in the SharedPreferences file for you. The only time you should directly interact with the associated SharedPreferences file is when you need to read the value in order to determine your app's behavior based on the user's setting.
+
+The value saved in SharedPreferences for each setting can be one of the following data types:
+
+    Boolean
+    Float
+    Int
+    Long
+    String
+    String Set
+
+Because your app's settings UI is built using Preference objects instead of View objects, you need to use a specialized Activity or Fragment subclass to display the list settings:
+
+    If your app supports versions of Android older than 3.0 (API level 10 and lower), you must build the activity as an extension of the PreferenceActivity class.
+    On Android 3.0 and later, you should instead use a traditional Activity that hosts a PreferenceFragment that displays your app settings. However, you can also use PreferenceActivity to create a two-pane layout for large screens when you have multiple groups of settings.
+
+How to set up your PreferenceActivity and instances of PreferenceFragment is discussed in the sections about Creating a Preference Activity and Using Preference Fragments.
+
+PREFERENCES xx
+
+Every setting for your app is represented by a specific subclass of the Preference class. Each subclass includes a set of core properties that allow you to specify things such as a title for the setting and the default value. Each subclass also provides its own specialized properties and user interface. For instance, figure 1 shows a screenshot from the Messaging app's settings. Each list item in the settings screen is backed by a different Preference object.
+
+A few of the most common preferences are:
+
+CheckBoxPreference
+    Shows an item with a checkbox for a setting that is either enabled or disabled. The saved value is a boolean (true if it's checked).
+ListPreference
+    Opens a dialog with a list of radio buttons. The saved value can be any one of the supported value types (listed above).
+EditTextPreference
+    Opens a dialog with an EditText widget. The saved value is a String.
+
+See the Preference class for a list of all other subclasses and their corresponding properties.
+
+Of course, the built-in classes don't accommodate every need and your application might require something more specialized. For example, the platform currently does not provide a Preference class for picking a number or a date. So you might need to define your own Preference subclass. For help doing so, "see the section about Building a Custom Preference. "
+
+DEFINING PREFERENCES IN XML
+
+Although you can instantiate new Preference objects at runtime, you should define your list of settings in XML with a hierarchy of Preference objects. Using an XML file to define your collection of settings is preferred because the file provides an easy-to-read structure that's simple to update. Also, your app's settings are generally pre-determined, although you can still modify the collection at runtime.
+
+Each Preference subclass can be declared with an XML element that matches the class name, such as <CheckBoxPreference>.
+
+You must save the XML file in the res/xml/ directory. Although you can name the file anything you want, it's traditionally named preferences.xml. You usually need only one file, because branches in the hierarchy (that open their own list of settings) are declared using nested instances of PreferenceScreen.
+
+Note: If you want to create a multi-pane layout for your settings, then you need separate XML files for each fragment.
+
+The root node for the XML file must be a element. Within this element is where you add each Preference. Each child you add within the <PreferenceScreen> element appears as a single item in the list of settings.
+
+For example:
+
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="pref_sync"
+        android:title="@string/pref_sync"
+        android:summary="@string/pref_sync_summ"
+        android:defaultValue="true" />
+    <ListPreference
+        android:dependency="pref_sync"
+        android:key="pref_syncConnectionType"
+        android:title="@string/pref_syncConnectionType"
+        android:dialogTitle="@string/pref_syncConnectionType"
+        android:entries="@array/pref_syncConnectionTypes_entries"
+        android:entryValues="@array/pref_syncConnectionTypes_values"
+        android:defaultValue="@string/pref_syncConnectionTypes_default" />
+</PreferenceScreen>
+
+In this example, there's a CheckBoxPreference and a ListPreference. Both items include the following three attributes:
+
+android:key
+    This attribute is required for preferences that persist a data value. It specifies the unique key (a string) the system uses when saving this setting's value in the SharedPreferences.
+
+    The only instances in which this attribute is not required is when the preference is a PreferenceCategory or PreferenceScreen, or the preference specifies an Intent to invoke (with an <intent> element) or a Fragment to display (with an android:fragment attribute).
+android:title
+    This provides a user-visible name for the setting.
+android:defaultValue
+    This specifies the initial value that the system should set in the SharedPreferences file. You should supply a default value for all settings.
+
+For information about all other supported attributes, see the Preference (and respective subclass) documentation.
+
+Figure 2. Setting categories with titles.
+1. The category is specified by the <PreferenceCategory> element.
+2. The title is specified with the android:title attribute.
+
+When your list of settings exceeds about 10 items, you might want to add titles to define groups of settings or display those groups in a separate screen. These options are described in the following sections.
+
+CREATING SETTING GROUPS
+
+If you present a list of 10 or more settings, users may have difficulty scanning, comprehending, and processing them. You can remedy this by dividing some or all of the settings into groups, effectively turning one long list into multiple shorter lists. A group of related settings can be presented in one of two ways:
+
+    Using titles
+    Using subscreens
+
+You can use one or both of these grouping techniques to organize your app's settings. When deciding which to use and how to divide your settings, you should follow the guidelines in Android Design's Settings guide.
+Using titles
+
+If you want to provide dividers with headings between groups of settings (as shown in figure 2), place each group of Preference objects inside a PreferenceCategory.
+
+For example:
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_sms_storage_title"
+        android:key="pref_key_storage_settings">
+        <CheckBoxPreference
+            android:key="pref_key_auto_delete"
+            android:summary="@string/pref_summary_auto_delete"
+            android:title="@string/pref_title_auto_delete"
+            android:defaultValue="false"... />
+        <Preference
+            android:key="pref_key_sms_delete_limit"
+            android:dependency="pref_key_auto_delete"
+            android:summary="@string/pref_summary_delete_limit"
+            android:title="@string/pref_title_sms_delete"... />
+        <Preference
+            android:key="pref_key_mms_delete_limit"
+            android:dependency="pref_key_auto_delete"
+            android:summary="@string/pref_summary_delete_limit"
+            android:title="@string/pref_title_mms_delete" ... />
+    </PreferenceCategory>
+    ...
+</PreferenceScreen>
+
+USING SUBSCREENS
+
+If you want to place groups of settings into a subscreen (as shown in figure 3), place the group of Preference objects inside a PreferenceScreen.
+
+Figure 3. Setting subscreens. The <PreferenceScreen> element creates an item that, when selected, opens a separate list to display the nested settings.
+
+For example:
+
+<PreferenceScreen  xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- opens a subscreen of settings -->
+    <PreferenceScreen
+        android:key="button_voicemail_category_key"
+        android:title="@string/voicemail"
+        android:persistent="false">
+        <ListPreference
+            android:key="button_voicemail_provider_key"
+            android:title="@string/voicemail_provider" ... />
+        <!-- opens another nested subscreen -->
+        <PreferenceScreen
+            android:key="button_voicemail_setting_key"
+            android:title="@string/voicemail_settings"
+            android:persistent="false">
+            ...
+        </PreferenceScreen>
+        <RingtonePreference
+            android:key="button_voicemail_ringtone_key"
+            android:title="@string/voicemail_ringtone_title"
+            android:ringtoneType="notification" ... />
+        ...
+    </PreferenceScreen>
+    ...
+</PreferenceScreen>
+
+USING INTENTS
+
+In some cases, you might want a preference item to open a different activity instead of a settings screen, such as a web browser to view a web page. To invoke an Intent when the user selects a preference item, add an <intent> element as a child of the corresponding <Preference> element.
+
+For example, here's how you can use a preference item to open a web page:
+
+<Preference android:title="@string/prefs_web_page" >
+    <intent android:action="android.intent.action.VIEW"
+            android:data="http://www.example.com" />
+</Preference>
+
+You can create both implicit and explicit intents using the following attributes:
+
+android:action
+    The action to assign, as per the setAction() method.
+android:data
+    The data to assign, as per the setData() method.
+android:mimeType
+    The MIME type to assign, as per the setType() method.
+android:targetClass
+    The class part of the component name, as per the setComponent() method.
+android:targetPackage
+    The package part of the component name, as per the setComponent() method.
+
+CREATING A PREFERENCE ACTIVITY
+
+To display your settings in an activity, extend the PreferenceActivity class. This is an extension of the traditional Activity class that displays a list of settings based on a hierarchy of Preference objects. The PreferenceActivity automatically persists the settings associated with each Preference when the user makes a change.
+
+Note: If you're developing your application for Android 3.0 and higher, you should instead use PreferenceFragment. Go to the next section about Using Preference Fragments.
+
+The most important thing to remember is that you do not load a layout of views during the onCreate() callback. Instead, you call addPreferencesFromResource() to add the preferences you've declared in an XML file to the activity. For example, here's the bare minimum code required for a functional PreferenceActivity:
+
+public class SettingsActivity extends PreferenceActivity {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.preferences);
+    }
+}
+
+This is actually enough code for some apps, because as soon as the user modifies a preference, the system saves the changes to a default SharedPreferences file that your other application components can read when you need to check the user's settings. Many apps, however, require a little more code in order to listen for changes that occur to the preferences. For information about listening to changes in the SharedPreferences file, see the section about Reading Preferences.
+
+USING PREFERENCE FRAGMENTS
+
+If you're developing for Android 3.0 (API level 11) and higher, you should use a PreferenceFragment to display your list of Preference objects. You can add a PreferenceFragment to any activity—you don't need to use PreferenceActivity.
+
+Fragments provide a more flexible architecture for your application, compared to using activities alone, no matter what kind of activity you're building. As such, we suggest you use PreferenceFragment to control the display of your settings instead of PreferenceActivity when possible.
+
+Your implementation of PreferenceFragment can be as simple as defining the onCreate() method to load a preferences file with addPreferencesFromResource(). For example:
+
+public static class SettingsFragment extends PreferenceFragment {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Load the preferences from an XML resource
+        addPreferencesFromResource(R.xml.preferences);
+    }
+    ...
+}
+
+You can then add this fragment to an Activity just as you would for any other Fragment. For example:
+
+public class SettingsActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Display the fragment as the main content.
+        getFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
+    }
+}
+
+Note: A PreferenceFragment doesn't have a its own Context object. If you need a Context object, you can call getActivity(). However, be careful to call getActivity() only when the fragment is attached to an activity. When the fragment is not yet attached, or was detached during the end of its lifecycle, getActivity() will return null.
+
+SETTING DEFAULT VALUES
+
+The preferences you create probably define some important behaviors for your application, so it's necessary that you initialize the associated SharedPreferences file with default values for each Preference when the user first opens your application.
+
+The first thing you must do is specify a default value for each Preference object in your XML file using the android:defaultValue attribute. The value can be any data type that is appropriate for the corresponding Preference object. For example:
+
+<!-- default value is a boolean -->
+<CheckBoxPreference
+    android:defaultValue="true"
+    ... />
+
+<!-- default value is a string -->
+<ListPreference
+    android:defaultValue="@string/pref_syncConnectionTypes_default"
+    ... />
+
+Then, from the onCreate() method in your application's main activity—and in any other activity through which the user may enter your application for the first time—call setDefaultValues():
+
+PreferenceManager.setDefaultValues(this, R.xml.advanced_preferences, false);
+
+Calling this during onCreate() ensures that your application is properly initialized with default settings, which your application might need to read in order to determine some behaviors (such as whether to download data while on a cellular network).
+
+This method takes three arguments:
+
+    Your application Context.
+    The resource ID for the preference XML file for which you want to set the default values.
+    A boolean indicating whether the default values should be set more than once.
+
+    When false, the system sets the default values only if this method has never been called in the past (or the KEY_HAS_SET_DEFAULT_VALUES in the default value shared preferences file is false).
+
+As long as you set the third argument to false, you can safely call this method every time your activity starts without overriding the user's saved preferences by resetting them to the defaults. However, if you set it to true, you will override any previous values with the defaults.
+
+
+
+USING PREFERENCE HEADERS
+
+In rare cases, you might want to design your settings such that the first screen displays only a list of subscreens (such as in the system Settings app, as shown in figures 4 and 5). When you're developing such a design for Android 3.0 and higher, you should use the "headers" feature instead of building subscreens with nested PreferenceScreen elements.
+
+To build your settings with headers, you need to:
+
+   1.  Separate each group of settings into separate instances of PreferenceFragment. That is, each group of settings needs a separate XML file.
+   2.  Create an XML headers file that lists each settings group and declares which fragment contains the corresponding list of settings.
+   3.  Extend the PreferenceActivity class to host your settings.
+   4.  Implement the onBuildHeaders() callback to specify the headers file.
+
+A great benefit to using this design is that PreferenceActivity automatically presents the two-pane layout shown in figure 4 when running on large screens.
+
+Even if your application supports versions of Android older than 3.0, you can build your application to use PreferenceFragment for a two-pane presentation on newer devices while still supporting a traditional multi-screen hierarchy on older devices (see the section about Supporting older versions with preference headers).
+
+Figure 4. Two-pane layout with headers.
+1. The headers are defined with an XML headers file.
+2. Each group of settings is defined by a PreferenceFragment that's specified by a <header> element in the headers file.
+
+Figure 5. A handset device with setting headers. When an item is selected, the associated PreferenceFragment replaces the headers.
+Creating the headers file
+
+Each group of settings in your list of headers is specified by a single <header> element inside a root <preference-headers> element. For example:
+
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:fragment="com.example.prefs.SettingsActivity$SettingsFragmentOne"
+        android:title="@string/prefs_category_one"
+        android:summary="@string/prefs_summ_category_one" />
+    <header
+        android:fragment="com.example.prefs.SettingsActivity$SettingsFragmentTwo"
+        android:title="@string/prefs_category_two"
+        android:summary="@string/prefs_summ_category_two" >
+        <!-- key/value pairs can be included as arguments for the fragment. -->
+        <extra android:name="someKey" android:value="someHeaderValue" />
+    </header>
+</preference-headers>
+
+With the android:fragment attribute, each header declares an instance of PreferenceFragment that should open when the user selects the header.
+
+The <extras> element allows you to pass key-value pairs to the fragment in a Bundle. The fragment can retrieve the arguments by calling getArguments(). You might pass arguments to the fragment for a variety of reasons, but one good reason is to reuse the same subclass of PreferenceFragment for each group and use the argument to specify which preferences XML file the fragment should load.
+
+For example, here's a fragment that can be reused for multiple settings groups, when each header defines an <extra> argument with the "settings" key:
+
+public static class SettingsFragment extends PreferenceFragment {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        String settings = getArguments().getString("settings");
+        if ("notifications".equals(settings)) {
+            addPreferencesFromResource(R.xml.settings_wifi);
+        } else if ("sync".equals(settings)) {
+            addPreferencesFromResource(R.xml.settings_sync);
+        }
+    }
+}
+
+Displaying the headers
+
+To display the preference headers, you must implement the onBuildHeaders() callback method and call loadHeadersFromResource(). For example:
+
+public class SettingsActivity extends PreferenceActivity {
+    @Override
+    public void onBuildHeaders(List<Header> target) {
+        loadHeadersFromResource(R.xml.preference_headers, target);
+    }
+}
+
+When the user selects an item from the list of headers, the system opens the associated PreferenceFragment.
+
+Note: When using preference headers, your subclass of PreferenceActivity doesn't need to implement the onCreate() method, because the only required task for the activity is to load the headers.
+Supporting older versions with preference headers
+
+If your application supports versions of Android older than 3.0, you can still use headers to provide a two-pane layout when running on Android 3.0 and higher. All you need to do is create an additional preferences XML file that uses basic <Preference> elements that behave like the header items (to be used by the older Android versions).
+
+Instead of opening a new PreferenceScreen, however, each of the <Preference> elements sends an Intent to the PreferenceActivity that specifies which preference XML file to load.
+
+For example, here's an XML file for preference headers that is used on Android 3.0 and higher (res/xml/preference_headers.xml):
+
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:fragment="com.example.prefs.SettingsFragmentOne"
+        android:title="@string/prefs_category_one"
+        android:summary="@string/prefs_summ_category_one" />
+    <header
+        android:fragment="com.example.prefs.SettingsFragmentTwo"
+        android:title="@string/prefs_category_two"
+        android:summary="@string/prefs_summ_category_two" />
+</preference-headers>
+
+And here is a preference file that provides the same headers for versions older than Android 3.0 (res/xml/preference_headers_legacy.xml):
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title="@string/prefs_category_one"
+        android:summary="@string/prefs_summ_category_one"  >
+        <intent
+            android:targetPackage="com.example.prefs"
+            android:targetClass="com.example.prefs.SettingsActivity"
+            android:action="com.example.prefs.PREFS_ONE" />
+    </Preference>
+    <Preference
+        android:title="@string/prefs_category_two"
+        android:summary="@string/prefs_summ_category_two" >
+        <intent
+            android:targetPackage="com.example.prefs"
+            android:targetClass="com.example.prefs.SettingsActivity"
+            android:action="com.example.prefs.PREFS_TWO" />
+    </Preference>
+</PreferenceScreen>
+
+Because support for <preference-headers> was added in Android 3.0, the system calls onBuildHeaders() in your PreferenceActivity only when running on Android 3.0 or higher. In order to load the "legacy" headers file (preference_headers_legacy.xml), you must check the Android version and, if the version is older than Android 3.0 (HONEYCOMB), call addPreferencesFromResource() to load the legacy header file. For example:
+
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ...
+
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+        // Load the legacy preferences headers
+        addPreferencesFromResource(R.xml.preference_headers_legacy);
+    }
+}
+
+// Called only on Honeycomb and later
+@Override
+public void onBuildHeaders(List<Header> target) {
+   loadHeadersFromResource(R.xml.preference_headers, target);
+}
+
+The only thing left to do is handle the Intent that's passed into the activity to identify which preference file to load. So retrieve the intent's action and compare it to known action strings that you've used in the preference XML's <intent> tags:
+
+final static String ACTION_PREFS_ONE = "com.example.prefs.PREFS_ONE";
+...
+
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    String action = getIntent().getAction();
+    if (action != null && action.equals(ACTION_PREFS_ONE)) {
+        addPreferencesFromResource(R.xml.preferences);
+    }
+    ...
+
+    else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+        // Load the legacy preferences headers
+        addPreferencesFromResource(R.xml.preference_headers_legacy);
+    }
+}
+
+Beware that consecutive calls to addPreferencesFromResource() will stack all the preferences in a single list, so be sure that it's only called once by chaining the conditions with else-if statements.
+Reading Preferences
+
+By default, all your app's preferences are saved to a file that's accessible from anywhere within your application by calling the static method PreferenceManager.getDefaultSharedPreferences(). This returns the SharedPreferences object containing all the key-value pairs that are associated with the Preference objects used in your PreferenceActivity.
+
+For example, here's how you can read one of the preference values from any other activity in your application:
+
+SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+String syncConnPref = sharedPref.getString(SettingsActivity.KEY_PREF_SYNC_CONN, "");
+
+Listening for preference changes
+
+There are several reasons you might want to be notified as soon as the user changes one of the preferences. In order to receive a callback when a change happens to any one of the preferences, implement the SharedPreference.OnSharedPreferenceChangeListener interface and register the listener for the SharedPreferences object by calling registerOnSharedPreferenceChangeListener().
+
+The interface has only one callback method, onSharedPreferenceChanged(), and you might find it easiest to implement the interface as a part of your activity. For example:
+
+public class SettingsActivity extends PreferenceActivity
+                              implements OnSharedPreferenceChangeListener {
+    public static final String KEY_PREF_SYNC_CONN = "pref_syncConnectionType";
+    ...
+
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+        String key) {
+        if (key.equals(KEY_PREF_SYNC_CONN)) {
+            Preference connectionPref = findPreference(key);
+            // Set summary to be the user-description for the selected value
+            connectionPref.setSummary(sharedPreferences.getString(key, ""));
+        }
+    }
+}
+
+In this example, the method checks whether the changed setting is for a known preference key. It calls findPreference() to get the Preference object that was changed so it can modify the item's summary to be a description of the user's selection. That is, when the setting is a ListPreference or other multiple choice setting, you should call setSummary() when the setting changes to display the current status (such as the Sleep setting shown in figure 5).
+
+Note: As described in the Android Design document about Settings, we recommend that you update the summary for a ListPreference each time the user changes the preference in order to describe the current setting.
+
+For proper lifecycle management in the activity, we recommend that you register and unregister your SharedPreferences.OnSharedPreferenceChangeListener during the onResume() and onPause() callbacks, respectively:
+
+@Override
+protected void onResume() {
+    super.onResume();
+    getPreferenceScreen().getSharedPreferences()
+            .registerOnSharedPreferenceChangeListener(this);
+}
+
+@Override
+protected void onPause() {
+    super.onPause();
+    getPreferenceScreen().getSharedPreferences()
+            .unregisterOnSharedPreferenceChangeListener(this);
+}
+
+Caution: When you call registerOnSharedPreferenceChangeListener(), the preference manager does not currently store a strong reference to the listener. You must store a strong reference to the listener, or it will be susceptible to garbage collection. We recommend you keep a reference to the listener in the instance data of an object that will exist as long as you need the listener.
+
+For example, in the following code, the caller does not keep a reference to the listener. As a result, the listener will be subject to garbage collection, and it will fail at some indeterminate time in the future:
+
+prefs.registerOnSharedPreferenceChangeListener(
+  // Bad! The listener is subject to garbage collection!
+  new SharedPreferences.OnSharedPreferenceChangeListener() {
+  public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+    // listener implementation
+  }
+});
+
+Instead, store a reference to the listener in an instance data field of an object that will exist as long as the listener is needed:
+
+SharedPreferences.OnSharedPreferenceChangeListener listener =
+    new SharedPreferences.OnSharedPreferenceChangeListener() {
+  public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+    // listener implementation
+  }
+};
+prefs.registerOnSharedPreferenceChangeListener(listener);
+
+Managing Network Usage
+
+Beginning with Android 4.0, the system's Settings application allows users to see how much network data their applications are using while in the foreground and background. Users can then disable the use of background data for individual apps. In order to avoid users disabling your app's access to data from the background, you should use the data connection efficiently and allow users to refine your app's data usage through your application settings.
+
+For example, you might allow the user to control how often your app syncs data, whether your app performs uploads/downloads only when on Wi-Fi, whether your app uses data while roaming, etc. With these controls available to them, users are much less likely to disable your app's access to data when they approach the limits they set in the system Settings, because they can instead precisely control how much data your app uses.
+
+Once you've added the necessary preferences in your PreferenceActivity to control your app's data habits, you should add an intent filter for ACTION_MANAGE_NETWORK_USAGE in your manifest file. For example:
+
+<activity android:name="SettingsActivity" ... >
+    <intent-filter>
+       <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+       <category android:name="android.intent.category.DEFAULT" />
+    </intent-filter>
+</activity>
+
+This intent filter indicates to the system that this is the activity that controls your application's data usage. Thus, when the user inspects how much data your app is using from the system's Settings app, a View application settings button is available that launches your PreferenceActivity so the user can refine how much data your app uses.
+Building a Custom Preference
+
+The Android framework includes a variety of Preference subclasses that allow you to build a UI for several different types of settings. However, you might discover a setting you need for which there's no built-in solution, such as a number picker or date picker. In such a case, you'll need to create a custom preference by extending the Preference class or one of the other subclasses.
+
+When you extend the Preference class, there are a few important things you need to do:
+
+    Specify the user interface that appears when the user selects the settings.
+    Save the setting's value when appropriate.
+    Initialize the Preference with the current (or default) value when it comes into view.
+    Provide the default value when requested by the system.
+    If the Preference provides its own UI (such as a dialog), save and restore the state to handle lifecycle changes (such as when the user rotates the screen).
+
+The following sections describe how to accomplish each of these tasks.
+Specifying the user interface
+
+If you directly extend the Preference class, you need to implement onClick() to define the action that occurs when the user selects the item. However, most custom settings extend DialogPreference to show a dialog, which simplifies the procedure. When you extend DialogPreference, you must call setDialogLayoutResourcs() during in the class constructor to specify the layout for the dialog.
+
+For example, here's the constructor for a custom DialogPreference that declares the layout and specifies the text for the default positive and negative dialog buttons:
+
+public class NumberPickerPreference extends DialogPreference {
+    public NumberPickerPreference(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        setDialogLayoutResource(R.layout.numberpicker_dialog);
+        setPositiveButtonText(android.R.string.ok);
+        setNegativeButtonText(android.R.string.cancel);
+
+        setDialogIcon(null);
+    }
+    ...
+}
+
+Saving the setting's value
+
+You can save a value for the setting at any time by calling one of the Preference class's persist*() methods, such as persistInt() if the setting's value is an integer or persistBoolean() to save a boolean.
+
+Note: Each Preference can save only one data type, so you must use the persist*() method appropriate for the data type used by your custom Preference.
+
+When you choose to persist the setting can depend on which Preference class you extend. If you extend DialogPreference, then you should persist the value only when the dialog closes due to a positive result (the user selects the "OK" button).
+
+When a DialogPreference closes, the system calls the onDialogClosed() method. The method includes a boolean argument that specifies whether the user result is "positive"—if the value is true, then the user selected the positive button and you should save the new value. For example:
+
+@Override
+protected void onDialogClosed(boolean positiveResult) {
+    // When the user selects "OK", persist the new value
+    if (positiveResult) {
+        persistInt(mNewValue);
+    }
+}
+
+In this example, mNewValue is a class member that holds the setting's current value. Calling persistInt() saves the value to the SharedPreferences file (automatically using the key that's specified in the XML file for this Preference).
+Initializing the current value
+
+When the system adds your Preference to the screen, it calls onSetInitialValue() to notify you whether the setting has a persisted value. If there is no persisted value, this call provides you the default value.
+
+The onSetInitialValue() method passes a boolean, restorePersistedValue, to indicate whether a value has already been persisted for the setting. If it is true, then you should retrieve the persisted value by calling one of the Preference class's getPersisted*() methods, such as getPersistedInt() for an integer value. You'll usually want to retrieve the persisted value so you can properly update the UI to reflect the previously saved value.
+
+If restorePersistedValue is false, then you should use the default value that is passed in the second argument.
+
+@Override
+protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+    if (restorePersistedValue) {
+        // Restore existing state
+        mCurrentValue = this.getPersistedInt(DEFAULT_VALUE);
+    } else {
+        // Set default state from the XML attribute
+        mCurrentValue = (Integer) defaultValue;
+        persistInt(mCurrentValue);
+    }
+}
+
+Each getPersisted*() method takes an argument that specifies the default value to use in case there is actually no persisted value or the key does not exist. In the example above, a local constant is used to specify the default value in case getPersistedInt() can't return a persisted value.
+
+Caution: You cannot use the defaultValue as the default value in the getPersisted*() method, because its value is always null when restorePersistedValue is true.
+Providing a default value
+
+If the instance of your Preference class specifies a default value (with the android:defaultValue attribute), then the system calls onGetDefaultValue() when it instantiates the object in order to retrieve the value. You must implement this method in order for the system to save the default value in the SharedPreferences. For example:
+
+@Override
+protected Object onGetDefaultValue(TypedArray a, int index) {
+    return a.getInteger(index, DEFAULT_VALUE);
+}
+
+The method arguments provide everything you need: the array of attributes and the index position of the android:defaultValue, which you must retrieve. The reason you must implement this method to extract the default value from the attribute is because you must specify a local default value for the attribute in case the value is undefined.
+Saving and restoring the Preference's state
+
+Just like a View in a layout, your Preference subclass is responsible for saving and restoring its state in case the activity or fragment is restarted (such as when the user rotates the screen). To properly save and restore the state of your Preference class, you must implement the lifecycle callback methods onSaveInstanceState() and onRestoreInstanceState().
+
+The state of your Preference is defined by an object that implements the Parcelable interface. The Android framework provides such an object for you as a starting point to define your state object: the Preference.BaseSavedState class.
+
+To define how your Preference class saves its state, you should extend the Preference.BaseSavedState class. You need to override just a few methods and define the CREATOR object.
+
+For most apps, you can copy the following implementation and simply change the lines that handle the value if your Preference subclass saves a data type other than an integer.
+
+private static class SavedState extends BaseSavedState {
+    // Member that holds the setting's value
+    // Change this data type to match the type saved by your Preference
+    int value;
+
+    public SavedState(Parcelable superState) {
+        super(superState);
+    }
+
+    public SavedState(Parcel source) {
+        super(source);
+        // Get the current preference's value
+        value = source.readInt();  // Change this to read the appropriate data type
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        // Write the preference's value
+        dest.writeInt(value);  // Change this to write the appropriate data type
+    }
+
+    // Standard creator object using an instance of this class
+    public static final Parcelable.Creator<SavedState> CREATOR =
+            new Parcelable.Creator<SavedState>() {
+
+        public SavedState createFromParcel(Parcel in) {
+            return new SavedState(in);
+        }
+
+        public SavedState[] newArray(int size) {
+            return new SavedState[size];
+        }
+    };
+}
+
+With the above implementation of Preference.BaseSavedState added to your app (usually as a subclass of your Preference subclass), you then need to implement the onSaveInstanceState() and onRestoreInstanceState() methods for your Preference subclass.
+
+For example:
+
+@Override
+protected Parcelable onSaveInstanceState() {
+    final Parcelable superState = super.onSaveInstanceState();
+    // Check whether this Preference is persistent (continually saved)
+    if (isPersistent()) {
+        // No need to save instance state since it's persistent,
+        // use superclass state
+        return superState;
+    }
+
+    // Create instance of custom BaseSavedState
+    final SavedState myState = new SavedState(superState);
+    // Set the state's value with the class member that holds current
+    // setting value
+    myState.value = mNewValue;
+    return myState;
+}
+
+@Override
+protected void onRestoreInstanceState(Parcelable state) {
+    // Check whether we saved the state in onSaveInstanceState
+    if (state == null || !state.getClass().equals(SavedState.class)) {
+        // Didn't save the state, so call superclass
+        super.onRestoreInstanceState(state);
+        return;
+    }
+
+    // Cast state to custom BaseSavedState and pass to superclass
+    SavedState myState = (SavedState) state;
+    super.onRestoreInstanceState(myState.getSuperState());
+
+    // Set this Preference's widget to reflect the restored state
+    mNumberPicker.setValue(myState.value);
+}
+
+Get news & tips
+Blog Support
+
+Except as noted, this content is licensed under Creative Commons Attribution 2.5. For details and restrictions, see the Content License.
+
+About Android Auto TV Wear Legal
+-------------------------------------------------------------------------------
+RECYCLERVIEW
+
+If you want to use a RecyclerView, you will need to feel comfortable with three elements:
+– RecyclerView.Adapter
+– LayoutManager
+– ItemAnimator
+
+Initial: 
+1. add code below to gradle :
+compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.+' 
+	
+
+Create: 
+
+1. 1 model class to get/set data from DB/WEB.... for each component of ItemView 
+	 "ItemViewData " + get()/set() function. 
+ 2. 1 class for collect data, then combine them to a array .
+	"List <ItemViewData> data  = new Array<>();"
+	
+3. Create a Adapter, instance of RecyclerView.Adapter, to get data and convert to View:
+public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.MyViewHolder> 
+
+Create a class instance of RecycleView.ViewHolder to get componet ID each component of ItemView
+		RecyclerView.ViewHolder : 
+		class MyViewHolder extends RecycleView.ViewHolder{
+		TextView textView;
+		ImageView imageView; 		
+		public MyViewHolder(View view) {
+		textView = (TextView) view.findViewById(R.id.textView);
+		imageView = (ImageView) view.findViewById(R.id.imageView);
+		}
+		
+		}
+		
+	
+	+ call onCreateViewHolder function to create a ItemView: 
+	@Override 
+	public RecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup,
+            int position) {
+        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
+        View itemView = inflater.inflate(R.layout.item_view, viewGroup, false);
+        return new RecyclerViewHolder(itemView);
+    }
+
+ 
+  Create a @Override function onBindViewHolder to binding the Data of step -> each component of holder.
+	 public void onBindViewHolder(MyViewHolder holder, int position) {
+        ItemViewData itemViewData = data.get(position);
+        holder.textView.setText(itemViewData.getTitle());
+    }
+	
+	
+4. On MainActivity.class 
+- set Adapter for ListView:
+ListView listView = (ListView) findViewById(R.layout.list_view);
+# set Adapter for listView 
+listView.setAdapter(adapter);
+
+
+###Using notifyDataSetChanged() function to update the view when have changed on data list: 
+adapter.notifyDataSetChanged()
+-> when have a change on arrList, must be update adapter :
+arrList.add(txtten.getText()+"");
+adapter.notifyDataSetChanged()
+
+
+	
+
+	
+	
+	
+---------------------------------------------------------------------------------------------------
+TOOLBAR: 
+1. Create a main_activity.xml
+2. Create a Toolbar. Action bar.xml 
+
+** Using Action bar for  + menu
+						 + DrawerLayout
+
+
+3. Add Toolbar to main_activity.xml using <include>
+4. Create a menu bar by create menu.xml file under res/menu/    <menu> 
+																		<item></item>
+																		<item></item>
+																		<item></item>
+																</menu>
+5. MainActivity.java : 
+ 5.1. Using   setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true); 
+		to enabled supporting for Action bar. 
+	
+	
+	
+	
+----------------------------------------------------------------------------------------------------
+NAVIGATION DRAWER
+
+
+1. Create a root layout as main layout
+2. Create a Navigation Drawer layout 
+3. Initial the layout in mainactivity.class
+
+ 
+
+getActivity (): Return the Activity this fragment is currently associated with. 	
+
+
+
+SOAP - REST - JSON -XML 
+
+--------------------------------------------------------------------------------------------------
+
+
+Fragment lifecycle: 
+
+
+ onAttach(Activity) -> onCreate (Bundle savedInstanceState) ->  onCreateView(LayoutInflater, ViewGroup, Bundle)
+
+------- 
+
+getactivity().findviewbyid() 
+getactivity(): using for fragment - to call activity that it associated. 
+... 
+Can not using findviewbyid() in class extended from activity, must declare content for findviewbyid(). 
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
